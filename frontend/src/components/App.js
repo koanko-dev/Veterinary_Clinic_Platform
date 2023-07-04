@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Link, Redirect } from "react-router-dom";
 
 import AuthPage from "../pages/AuthPage";
 import HomePage from "../pages/HomePage";
+import ToolBar from "./common/ToolBar";
 
 export default class App extends Component {
   constructor(props) {
@@ -12,12 +13,15 @@ export default class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="auth/" element={<AuthPage />} />
-        </Routes>
-      </BrowserRouter>
+      <>
+        <ToolBar />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/auth/:authPath" element={<AuthPage />} />
+          </Routes>
+        </BrowserRouter>
+      </>
     );
   }
 }
