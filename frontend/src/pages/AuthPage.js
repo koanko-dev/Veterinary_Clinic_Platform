@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class JoinPage extends Component {
+class AuthPage extends Component {
     render() {
         return (
             <div>
-                join page
+                AUTH PAGE
             </div>
         );
     }
 }
 
-export default JoinPage;
+export default AuthPage;

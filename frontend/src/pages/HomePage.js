@@ -7,17 +7,14 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import JoinPage from "./JoinPage";
+import JoinPage from "./AuthPage";
 
 class HomePage extends Component {
   render() {
     return (
-        <Router>
-            <Routes>
-                <Route path='/' element={<p>home page</p>} />
-                <Route path='join' element={<JoinPage/>} />
-            </Routes>
-        </Router>
+        <div>
+          HOME PAGE
+        </div>
     )
   }
 }
