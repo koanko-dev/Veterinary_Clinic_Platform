@@ -41,7 +41,7 @@ class User(AbstractUser):
     pass
 
 class Clinic(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='clinic_info')
     clinic_name = models.CharField(max_length=30)
     bio = models.TextField()
     address = models.CharField(max_length=50)

@@ -6,9 +6,10 @@ urlpatterns = [
     path('create_article/', views.create_article),
     path('<int:article_pk>/update_article/', views.update_article),
     path('<int:article_pk>/delete_article/', views.delete_article),
+    path('<int:article_pk>/', views.article_detail),
 
-    path('<int:clinic_pk>/', views.article_by_clinic),
-    path('', views.filtered_article),
+    path('clinic/<int:clinic_pk>/', views.articles_by_clinic),
+    path('', views.filtered_articles),
 
     path('<int:article_pk>/comments/', views.comments_by_article),
     path('<int:article_pk>/create_comment/', views.create_comment),
