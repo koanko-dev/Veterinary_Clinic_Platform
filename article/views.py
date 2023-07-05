@@ -56,11 +56,26 @@ def filtered_articles(request):
     pass
 
 
-def comments_by_article(request, article_pk):
-    pass
-
+@api_view(['POST'])
 def create_comment(request, article_pk):
-    pass
+    article = get_object_or_404(Article, pk=article_pk)
 
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(article=article, user=request.user)
+
+        comments = article.comments.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['DELETE'])
 def delete_comment(request, article_pk, comment_pk):
-    pass
+    article = get_object_or_404(Article, pk=article_pk)
+    comment = get_object_or_404(Comment, pk=comment_pk)
+
+    if comment.user == request.user:
+        comment.delete()
+        comments = article.comments.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

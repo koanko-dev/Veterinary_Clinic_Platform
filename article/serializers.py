@@ -10,18 +10,23 @@ class ArticleSerializer(serializers.ModelSerializer):
              class Meta:
                 model = Clinic
                 fields = ('id', 'clinic_name', 'address_area',)
-
         clinic_info = ClinicSerializer(read_only=True, many=True)
 
         class Meta:
             model = get_user_model()
             fields = ('id', 'username', 'clinic_info',)
 
+    class CommentSerializer(serializers.ModelSerializer):
+        class Meta:
+                model = Comment
+                fields = ('id', 'user', 'content',)
+    comments = CommentSerializer(read_only=True, many=True)
+
     user = UserSerializer(read_only=True)
                       
     class Meta:
         model = Article
-        fields = ('id', 'user', 'title', 'content',)
+        fields = ('id', 'user', 'title', 'content', 'comments',)
 
 class CommentSerializer(serializers.ModelSerializer):
     class UserSerializer(serializers.ModelSerializer):
@@ -34,7 +39,7 @@ class CommentSerializer(serializers.ModelSerializer):
             model = Article
             fields = ('id', 'title', 'content')
 
-    article = ArticleSerializer()
+    article = ArticleSerializer(read_only=True)
     user = UserSerializer(read_only=True)
 
     class Meta:

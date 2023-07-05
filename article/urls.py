@@ -11,7 +11,6 @@ urlpatterns = [
     path('clinic/<int:clinic_pk>/', views.articles_by_clinic),
     path('', views.filtered_articles),
 
-    path('<int:article_pk>/comments/', views.comments_by_article),
     path('<int:article_pk>/create_comment/', views.create_comment),
     path('<int:article_pk>/comments/<int:comment_pk>/delete_comment/', views.delete_comment),
 ]
