@@ -23,15 +23,15 @@ urlpatterns = [
     path('', include('frontend.urls')),
 
     path('api/accounts/', include('dj_rest_auth.urls')),
-    # path('api/accounts/user', include('dj_rest_auth.urls')),
-    # path('api/accounts/login', include('dj_rest_auth.urls')),
-    # path('api/accounts/logout', include('dj_rest_auth.urls')),
-    # path('api/accounts/password/reset', include('dj_rest_auth.urls')),
-    # path('api/accounts/password/reset/confirm', include('dj_rest_auth.urls')),
-    # path('api/accounts/password/change', include('dj_rest_auth.urls')),
-    path('api/accounts/u/', include('accounts.urls')),
+    # path('api/accounts/user/', include('dj_rest_auth.urls')),
+    # path('api/accounts/login/', include('dj_rest_auth.urls')),
+    # path('api/accounts/logout/', include('dj_rest_auth.urls')),
+    # path('api/accounts/password/reset/', include('dj_rest_auth.urls')),
+    # path('api/accounts/password/reset/confirm/', include('dj_rest_auth.urls')),
+    # path('api/accounts/password/change/', include('dj_rest_auth.urls')),
+    path('api/accounts/', include('accounts.urls')),
     path('api/accounts/signup/', include('dj_rest_auth.registration.urls')),
 
-    path('api/article/', include('article.urls')),
+    path('api/articles/', include('article.urls')),
     path('api/review/', include('review.urls')),
 ]
