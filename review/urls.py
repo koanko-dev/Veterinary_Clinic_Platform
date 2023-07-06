@@ -2,11 +2,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # api/review/
-    path('create_review/', views.create_review),
-    path('<int:review_pk>/update_review/', views.update_review),
-    path('<int:review_pk>/delete_review/', views.delete_review),
+    # api/reviews/
+    path('', views.create_review_or_list),
+    path('<int:review_pk>/', views.detail_update_delete_review),
+    path('clinic/<int:clinic_pk>/', views.reviews_by_clinic),
 
-    path('<int:clinic_pk>/', views.reviews_by_clinic),
-    path('', views.filtered_reviews),
+    # path('', views.filtered_reviews),
 ]

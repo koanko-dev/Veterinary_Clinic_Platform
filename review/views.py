@@ -1,16 +1,75 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth import get_user_model
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
-def create_review(request):
-    pass
+from .models import Review
+from accounts.models import Clinic
+from .serializers import ReviewSerializer
 
-def update_review(request, review_pk):
-    pass
 
-def delete_review(request, review_pk):
-    pass
+@api_view(['GET', 'POST'])
+def create_review_or_list(request):
+    def reviews():
+        reviews = Review.objects.all()
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
 
+    def create_review():
+        clinic = get_object_or_404(Clinic, pk=request.data['clinic_id'])
+        serializer = ReviewSerializer(data=request.data)
+        print(request.user)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(clinic=clinic, user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+    if request.method == 'GET':
+        return reviews()
+    
+    elif request.method == 'POST':
+        return create_review()
+    
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def detail_update_delete_review(request, review_pk):
+    review = get_object_or_404(Review, pk=review_pk)
+
+    def review_detail():
+        serializer = ReviewSerializer(review)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def update_review():
+        if review.user == request.user:
+            serializer = ReviewSerializer(instance=review, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete_review():
+        if review.user == request.user:
+            review.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+    if request.method == 'GET':
+        return review_detail()
+
+    elif request.method == 'PUT':
+        return update_review()
+
+    elif request.method == 'DELETE':
+        return delete_review()
+    
+
+@api_view(['GET'])
 def reviews_by_clinic(request, clinic_pk):
-    pass
+    clinic = get_object_or_404(Clinic, pk=clinic_pk)
+    reviews = Review.objects.filter(user=clinic.user.pk)
+    serializer = ReviewSerializer(reviews, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 def filtered_reviews(request):
     pass

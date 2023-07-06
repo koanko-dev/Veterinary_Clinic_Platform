@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from accounts.models import GeneralUser, Clinic
 
@@ -28,7 +29,7 @@ class Review(models.Model):
         ('기타 수술', '기타 수술'),
     ]
 
-    general_user = models.ForeignKey(GeneralUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     pet_species = models.CharField(max_length=10, choices=PET_CHOICES)
