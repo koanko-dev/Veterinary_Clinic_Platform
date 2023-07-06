@@ -19,7 +19,7 @@ class ClinicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Clinic
-        fields = ('id', 'user', 'clinic_name', 'bio', 'address', 'address_area', 'specialized_field',)
+        fields = ('id', 'user', 'clinic_name', 'bio', 'address', 'address_area', 'specialized_field', 'rating',)
 
 class GeneralUserSerializer(serializers.ModelSerializer):
     class UserSerializer(serializers.ModelSerializer):

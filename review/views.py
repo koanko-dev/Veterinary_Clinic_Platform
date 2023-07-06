@@ -18,11 +18,15 @@ def create_review_or_list(request):
 
     def create_review():
         clinic = get_object_or_404(Clinic, pk=request.data['clinic_id'])
-        serializer = ReviewSerializer(data=request.data)
-        print(request.user)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(clinic=clinic, user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        review_serializer = ReviewSerializer(data=request.data)
+
+        if review_serializer.is_valid(raise_exception=True):
+            review_serializer.save(clinic=clinic, user=request.user)
+            
+            clinic_reviews = Review.objects.filter(clinic=clinic)
+            clinic.rating = sum(d.rating for d in clinic_reviews) / len(clinic_reviews)
+            clinic.save()
+            return Response(review_serializer.data, status=status.HTTP_201_CREATED)
 
 
     if request.method == 'GET':
@@ -45,11 +49,21 @@ def detail_update_delete_review(request, review_pk):
             serializer = ReviewSerializer(instance=review, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
+
+                clinic = get_object_or_404(Clinic, pk=review.clinic.id)
+                clinic_reviews = Review.objects.filter(clinic=clinic)
+                clinic.rating = sum(d.rating for d in clinic_reviews) / len(clinic_reviews)
+                clinic.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete_review():
         if review.user == request.user:
             review.delete()
+
+            clinic = get_object_or_404(Clinic, pk=review.clinic.id)
+            clinic_reviews = Review.objects.filter(clinic=clinic)
+            clinic.rating = sum(d.rating for d in clinic_reviews) / len(clinic_reviews)
+            clinic.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
 

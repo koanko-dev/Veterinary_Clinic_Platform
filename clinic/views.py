@@ -11,5 +11,4 @@ from accounts.serializers import ClinicSerializer
 def clinics(request):
     clinics = Clinic.objects.all()
     serializer = ClinicSerializer(clinics, many=True)
-    print('-------------', clinics)
     return Response(serializer.data)

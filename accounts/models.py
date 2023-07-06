@@ -66,6 +66,7 @@ class Clinic(models.Model):
     address_area = models.CharField(max_length=4, choices=AREA_CHOICES)
     specialized_field = models.CharField(max_length=10, choices=CLINIC_CATEGORY_CHOICES)
     specialized_species = models.CharField(max_length=10, choices=PET_CHOICES)
+    rating = models.FloatField(default=0)
 
 class GeneralUser(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
