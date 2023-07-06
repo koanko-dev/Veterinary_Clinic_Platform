@@ -37,6 +37,24 @@ AREA_CHOICES = [
         ('강동구', '강동구'),
     ]
 
+CLINIC_CATEGORY_CHOICES = [
+        ('소화기 질환', '소화기 질환'),
+        ('호흡기 질환', '호흡기 질환'),
+        ('순환기 질환', '순환기 질환'),
+        ('신장/비뇨기 질환', '신장/비뇨기 질환'),
+        ('피부 질환', '피부 질환'),
+        ('신경 질환', '신경 질환'),
+        ('이비인후과 질환', '이비인후과 질환'),
+        ('기타 질환', '기타 질환'),
+        ('비교기외과 수술', '비교기외과 수술'),
+        ('종양외과 수술', '종양외과 수술'),
+        ('정형외과 수술', '정형외과 수술'),
+        ('소화기외과 수술', '소화기외과 수술'),
+        ('산과 수술', '산과 수술'),
+        ('중성화 수술', '중성화 수술'),
+        ('기타 수술', '기타 수술'),
+    ]
+
 class User(AbstractUser):
     pass
 
@@ -46,7 +64,8 @@ class Clinic(models.Model):
     bio = models.TextField()
     address = models.CharField(max_length=50)
     address_area = models.CharField(max_length=4, choices=AREA_CHOICES)
-    specialized_field = models.CharField(max_length=10, choices=PET_CHOICES)
+    specialized_field = models.CharField(max_length=10, choices=CLINIC_CATEGORY_CHOICES)
+    specialized_species = models.CharField(max_length=10, choices=PET_CHOICES)
 
 class GeneralUser(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

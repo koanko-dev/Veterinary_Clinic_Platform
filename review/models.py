@@ -8,7 +8,7 @@ class Review(models.Model):
         ('고양이', '고양이'),
         ('강아지', '강아지'),
         ('새', '새'),
-        ('etc', '그 외 종류'),
+        ('그 외 종류', '그 외 종류'),
     ]
 
     CLINIC_CATEGORY_CHOICES = [
@@ -30,7 +30,7 @@ class Review(models.Model):
     ]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
-    clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE)
+    clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, related_name='reviews')
     title = models.CharField(max_length=50)
     pet_species = models.CharField(max_length=10, choices=PET_CHOICES)
     clinic_category = models.CharField(max_length=10, choices=CLINIC_CATEGORY_CHOICES)
