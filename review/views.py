@@ -85,5 +85,12 @@ def reviews_by_clinic(request, clinic_pk):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-def filtered_reviews(request):
+def search_reviews(request):
+    # species = request.GET.get('spicies')
+    # category = request.GET.get('category')
+    
+    # reviews = Review.objects.filter()
+
+    # if not reviews:
+    #     return Review.b
     pass
