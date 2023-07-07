@@ -77,7 +77,7 @@ def google_callback(request):
 
         # 이미 Google로 제대로 가입된 유저 => 로그인 & 해당 유저의 key 발급
         data = {'access_token': access_token, 'code': code}
-        accept = requests.post(f"{BASE_URL}api/user/google/login/finish/", data=data)
+        accept = requests.post(f"{BASE_URL}api/accounts/google/login/finish/", data=data)
         accept_status = accept.status_code
 
         if accept_status != 200:
