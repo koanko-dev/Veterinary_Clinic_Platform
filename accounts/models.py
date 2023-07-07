@@ -1,6 +1,47 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+# from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.conf import settings
+
+class UserManager(BaseUserManager):
+    def create_user(self, email, username, password, **kwargs):
+        if not email:
+            raise ValueError('Users must have an email address')
+        user = self.model(
+            email=email,
+            username=username,
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email=None, username=None, password=None, **extra_fields):
+        superuser = self.create_user(
+            email=email,
+            username=username,
+            password=password,
+        )
+        
+        superuser.is_staff = True
+        superuser.is_superuser = True
+        
+        superuser.save(using=self._db)
+        return superuser
+
+class User(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=30)
+    email = models.EmailField(max_length=30, unique=True, null=False, blank=False)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
+
 
 PET_CHOICES = [
     ('고양이', '고양이'),
@@ -55,8 +96,8 @@ CLINIC_CATEGORY_CHOICES = [
         ('기타 수술', '기타 수술'),
     ]
 
-class User(AbstractUser):
-    pass
+# class User(AbstractUser):
+#     pass
 
 class Clinic(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='clinic_info')
