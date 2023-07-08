@@ -1,5 +1,4 @@
 from django.db import models
-# from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.conf import settings
 
@@ -96,9 +95,6 @@ CLINIC_CATEGORY_CHOICES = [
         ('기타 수술', '기타 수술'),
     ]
 
-# class User(AbstractUser):
-#     pass
-
 class Clinic(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='clinic_info')
     clinic_name = models.CharField(max_length=30)
@@ -110,7 +106,7 @@ class Clinic(models.Model):
     rating = models.FloatField(default=0)
 
 class GeneralUser(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='general_user_info')
     pet_name = models.CharField(max_length=30)
     pet_species = models.CharField(max_length=10, choices=PET_CHOICES)
     address_area = models.CharField(max_length=4, choices=AREA_CHOICES)
