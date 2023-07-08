@@ -225,17 +225,19 @@ class KakaoLogin(SocialLoginView):
     
 @api_view(['GET'])
 def profile(request, username):
-    # myuser2.groups.all()[0].id
-    # myuser2.groups.all()[0].name
-    # User.objects.filter(groups=1)
-    # if request.user.groups.filter(name='Clinic Members').exsists()
     user = get_object_or_404(get_user_model(), username=username)
 
-    return Response(UserSerializer(user).data)
+    if user.groups.filter(name='Clinic Members').exists():
+        clinic = get_object_or_404(Clinic, user=user)
+        return Response(ClinicSerializer(clinic).data)
+    else:
+        general_user = get_object_or_404(GeneralUser, user=user)
+        return Response(GeneralUserSerializer(general_user).data)
+
 
 @api_view(['POST'])
-def save_info_by_group(request, username):
-    user = get_object_or_404(get_user_model(), username=username)
+def save_info_by_group(request, user_pk):
+    user = get_object_or_404(get_user_model(), pk=user_pk)
 
     if user.groups.all():
         serializer = ClinicSerializer(data=request.data)
@@ -246,3 +248,17 @@ def save_info_by_group(request, username):
         serializer.save(user=user)
         return Response(serializer.data)
     
+@api_view(['POST'])
+def follow(request, clinic_pk):
+    clinic = get_object_or_404(Clinic, pk=clinic_pk)
+    follower = get_object_or_404(GeneralUser, user=request.user)
+
+    if clinic.user != request.user:    
+        if follower.following_clinics.filter(pk=clinic.pk).exists():
+            follower.following_clinics.remove(clinic)
+        else:
+            follower.following_clinics.add(clinic)
+
+    # follower = get_object_or_404(GeneralUser, user=request.user)
+    serializer = GeneralUserSerializer(follower)
+    return Response(serializer.data)
