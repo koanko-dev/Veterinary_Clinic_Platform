@@ -11,7 +11,7 @@ urlpatterns = [
     path('kakao/callback/', views.kakao_callback),
     path('kakao/login/finish/', views.KakaoLogin.as_view()),
 
-    path('<str:username>/', views.profile),
+    path('profile/<str:username>/', views.profile),
     path('groups/<str:user_pk>/', views.save_info_by_group),
     path('follow/<str:clinic_pk>/', views.follow),
 ]

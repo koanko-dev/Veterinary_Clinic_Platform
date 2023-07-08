@@ -178,3 +178,9 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.IsAuthenticated'
     ]
 }
+
+# Actual directory user files go to
+MEDIA_ROOT = BASE_DIR / 'mediafiles'
+
+# URL used to access the media
+MEDIA_URL = '/media/'

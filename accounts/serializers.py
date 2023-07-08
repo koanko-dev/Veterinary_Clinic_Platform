@@ -20,9 +20,11 @@ class ClinicSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     followers = GeneralUserSerializer(read_only=True, many=True)
 
+    image_url = serializers.ImageField(required=False)
+
     class Meta:
         model = Clinic
-        fields = ('id', 'user', 'clinic_name', 'bio', 'address', 'address_area', 'specialized_field', 'specialized_species', 'rating', 'followers',)
+        fields = ('id', 'user', 'clinic_name', 'bio', 'address', 'address_area', 'specialized_field', 'specialized_species', 'rating', 'followers', 'image_url', )
 
 
 class GeneralUserSerializer(serializers.ModelSerializer):

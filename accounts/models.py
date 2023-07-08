@@ -95,10 +95,15 @@ CLINIC_CATEGORY_CHOICES = [
         ('기타 수술', '기타 수술'),
     ]
 
+# lets us explicitly set upload path and filename
+def upload_to(instance, filename):
+    return 'clinic_main_imgs/{filename}'.format(filename=filename)
+
 class Clinic(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='clinic_info')
     clinic_name = models.CharField(max_length=30)
     bio = models.TextField()
+    image_url = models.ImageField(upload_to=upload_to, blank=True, null=True)
     address = models.CharField(max_length=50)
     address_area = models.CharField(max_length=4, choices=AREA_CHOICES)
     specialized_field = models.CharField(max_length=10, choices=CLINIC_CATEGORY_CHOICES)
