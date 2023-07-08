@@ -3,6 +3,9 @@ from django.conf import settings
 
 from accounts.models import GeneralUser, Clinic
 
+def review_img_upload_to(instance, filename):
+    return 'review_imgs/{filename}'.format(filename=filename)
+
 class Review(models.Model):
     PET_CHOICES = [
         ('고양이', '고양이'),
@@ -32,8 +35,11 @@ class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, related_name='reviews')
     title = models.CharField(max_length=50)
+    img = models.ImageField(upload_to=review_img_upload_to, blank=True, null=True)
     pet_species = models.CharField(max_length=10, choices=PET_CHOICES)
     clinic_category = models.CharField(max_length=10, choices=CLINIC_CATEGORY_CHOICES)
     price = models.IntegerField()
     content = models.TextField()
     rating = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

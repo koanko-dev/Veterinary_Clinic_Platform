@@ -2,22 +2,27 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.conf import settings
 
+def user_img_upload_to(instance, filename):
+    return 'user_imgs/{filename}'.format(filename=filename)
+
 class UserManager(BaseUserManager):
-    def create_user(self, email, username, password, **kwargs):
+    def create_user(self, email, username, img, password, **kwargs):
         if not email:
             raise ValueError('Users must have an email address')
         user = self.model(
             email=email,
             username=username,
+            img=img,
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email=None, username=None, password=None, **extra_fields):
+    def create_superuser(self, email=None, username=None, img=None, password=None, **extra_fields):
         superuser = self.create_user(
             email=email,
             username=username,
+            img=img,
             password=password,
         )
         
@@ -30,6 +35,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=30)
     email = models.EmailField(max_length=30, unique=True, null=False, blank=False)
+    img = models.ImageField(upload_to=user_img_upload_to, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -95,15 +101,14 @@ CLINIC_CATEGORY_CHOICES = [
         ('기타 수술', '기타 수술'),
     ]
 
-# lets us explicitly set upload path and filename
-def upload_to(instance, filename):
+def clinic_main_img_upload_to(instance, filename):
     return 'clinic_main_imgs/{filename}'.format(filename=filename)
 
 class Clinic(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='clinic_info')
     clinic_name = models.CharField(max_length=30)
     bio = models.TextField()
-    image_url = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    img = models.ImageField(upload_to=clinic_main_img_upload_to, blank=True, null=True)
     address = models.CharField(max_length=50)
     address_area = models.CharField(max_length=4, choices=AREA_CHOICES)
     specialized_field = models.CharField(max_length=10, choices=CLINIC_CATEGORY_CHOICES)

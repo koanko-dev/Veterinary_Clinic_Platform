@@ -6,9 +6,10 @@ from accounts.models import Clinic
 
 
 class UserSerializer(serializers.ModelSerializer):
+        img = serializers.ImageField(required=False)
         class Meta:
             model = get_user_model()
-            fields = ('id', 'username',)
+            fields = ('id', 'username', 'img',)
 
 class CommentSerializer(serializers.ModelSerializer):
     class ArticleSerializer(serializers.ModelSerializer):    
@@ -21,7 +22,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('id', 'article', 'user', 'content',)
+        fields = ('id', 'article', 'user', 'content', 'created_at',)
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -32,19 +33,23 @@ class ArticleSerializer(serializers.ModelSerializer):
                 fields = ('id', 'clinic_name', 'address_area',)
         clinic_info = ClinicSerializer(read_only=True, many=True)
 
+        img = serializers.ImageField(required=False)
+
         class Meta:
             model = get_user_model()
-            fields = ('id', 'username', 'clinic_info',)
+            fields = ('id', 'username', 'clinic_info', 'img',)
 
     class CommentSerializer(serializers.ModelSerializer):
         user = UserSerializer(read_only=True)
         class Meta:
                 model = Comment
-                fields = ('id', 'user', 'content',)
+                fields = ('id', 'user', 'content', 'created_at',)
 
     comments = CommentSerializer(read_only=True, many=True)
     user = UserClinicSerializer(read_only=True)
-                      
+
+    img = serializers.ImageField(required=False)
+        
     class Meta:
         model = Article
-        fields = ('id', 'user', 'title', 'content', 'comments',)
+        fields = ('id', 'user', 'title', 'img', 'content', 'category', 'created_at', 'updated_at', 'comments', )

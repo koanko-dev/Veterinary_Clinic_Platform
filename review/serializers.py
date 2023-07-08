@@ -5,9 +5,10 @@ from .models import Review
 from accounts.models import Clinic
 
 class UserSerializer(serializers.ModelSerializer):
+        img = serializers.ImageField(required=False)
         class Meta:
             model = get_user_model()
-            fields = ('id', 'username',)
+            fields = ('id', 'username', 'img')
 
 class ClinicSerializer(serializers.ModelSerializer):
         class Meta:
@@ -17,7 +18,10 @@ class ClinicSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     clinic = ClinicSerializer(read_only=True)
+
+    img = serializers.ImageField(required=False)
+
     class Meta:
         model = Review
-        fields = ('id', 'user', 'clinic', 'title', 'pet_species',
-                  'clinic_category', 'price', 'content', 'rating',)
+        fields = ('id', 'user', 'clinic', 'title', 'img', 'pet_species',
+                  'clinic_category', 'price', 'content', 'rating', 'created_at', 'updated_at',)
