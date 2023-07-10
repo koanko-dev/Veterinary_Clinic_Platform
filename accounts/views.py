@@ -234,20 +234,6 @@ def profile(request, username):
         general_user = get_object_or_404(GeneralUser, user=user)
         return Response(GeneralUserSerializer(general_user).data)
 
-# from .models import Clinic
-# from .serializers import ClinicSerializer
-# from rest_framework import permissions, viewsets
-# from rest_framework.parsers import MultiPartParser, FormParser
-
-# class ClinicViewSet(viewsets.ModelViewSet):
-#     queryset = Clinic.objects.order_by('-pk')
-#     serializer_class = ClinicSerializer
-#     parser_classes = (MultiPartParser, FormParser)
-#     permission_classes = [
-#         permissions.IsAuthenticatedOrReadOnly]
-
-#     def perform_create(self, serializer):
-#         serializer.save(creator=self.request.user)
 
 @api_view(['POST'])
 def save_info_by_group(request, user_pk):

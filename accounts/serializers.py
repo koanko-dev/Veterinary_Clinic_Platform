@@ -5,12 +5,14 @@ from .models import Clinic, GeneralUser
 from review.serializers import ReviewSerializer
 
 
+
 class UserSerializer(serializers.ModelSerializer):
     img = serializers.ImageField(required=False)
 
     class Meta:
         model = get_user_model()
         fields = ('id', 'username', 'email', 'img',)
+
 
 
 class ClinicSerializer(serializers.ModelSerializer):
