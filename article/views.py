@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -73,8 +74,35 @@ def articles_by_clinic(request, clinic_pk):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-def filtered_articles(request):
-    pass
+@api_view(['GET'])
+def search_articles(request):
+    category = request.GET.get('category')
+    ordering = request.GET.get('ordering')
+
+    def filter_category():
+        if category:
+            return Q(category=category)
+        return ~Q(category=category)
+    
+    def order_by_created_at():
+        # 과거순으로 보기
+        if ordering == 'created_at_ascending':
+            return 'created_at'
+        # 최신순으로 보기
+        return '-pk'
+
+    articles = Article.objects.filter(
+        filter_category(),
+    ).order_by(
+        order_by_created_at()
+    )
+
+    # if not articles:
+    #     articles = Article.objects.all()
+
+    serializer = ArticleSerializer(articles, many=True)
+
+    return Response(serializer.data)
 
 
 @api_view(['POST'])
