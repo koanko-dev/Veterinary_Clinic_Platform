@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -85,12 +86,55 @@ def reviews_by_clinic(request, clinic_pk):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
 def search_reviews(request):
-    # species = request.GET.get('spicies')
-    # category = request.GET.get('category')
-    
-    # reviews = Review.objects.filter()
+    pet_species = request.GET.get('pet_species')
+    clinic_category = request.GET.get('clinic_category')
+    clinic_area = request.GET.get('clinic_area')
+    ordering = request.GET.get('ordering')
+
+    def filter_pet_species():
+        if pet_species:
+            return Q(pet_species=pet_species)
+        return ~Q(pet_species=pet_species)
+
+    def filter_clinic_category():
+        if clinic_category:
+            return Q(clinic_category=clinic_category)
+        return ~Q(clinic_category=clinic_category)
+
+    def filter_clinic_area():
+        if clinic_area:
+            return Q(clinic_area=clinic_area)
+        return ~Q(clinic_area=clinic_area)
+
+    def order_by_rating_price():
+        # 낮은별점순으로 보기
+        if ordering == 'rating_ascending':
+            return 'rating'
+        # 높은별점순으로 보기
+        elif ordering == 'rating_descending':
+            return '-rating'
+        # 낮은가격순으로 보기
+        elif ordering == 'price_ascending':
+            return 'price'
+        # 높은가격순으로 보기
+        elif ordering == 'price_descending':
+            return '-price'
+        # 최신순으로 보기
+        return '-pk'
+
+    reviews = Review.objects.filter(
+        filter_pet_species(),
+        filter_clinic_category(),
+        filter_clinic_area()
+    ).order_by(
+        order_by_rating_price()
+    )
 
     # if not reviews:
-    #     return Review.b
-    pass
+    #     reviews = Review.objects.all()
+
+    serializer = ReviewSerializer(reviews, many=True)
+
+    return Response(serializer.data)
