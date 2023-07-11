@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Link, Redirect } from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import Layout from "./components/common/Layout";
+import ReviewListPage from "./pages/ReviewListPage";
 
 export default class App extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ export default class App extends Component {
             <Route path="/user/:name" element={<p>user profile</p>} />
             <Route path="/clinics" element={<p>clinic list</p>} />
             <Route path="/clinics/:name" element={<p>clinic page</p>} />
-            <Route path="/reviews" element={<p>review list</p>} />
+            <Route path="/reviews" element={<ReviewListPage />} />
             <Route path="/reviews/:rnum" element={<p>review detail</p>} />
             <Route path="/editor/reviews/:rnum" element={<p>review editor</p>} />
             <Route path="/articles" element={<p>article list</p>} />
