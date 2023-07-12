@@ -195,7 +195,7 @@ const ReviewForm = (props) => {
         errorMsg={emptyErrorMsg}
       />
 
-      <div className="form-actions">
+      <div>
         <button disabled={!formIsValid}>저장</button>
       </div>
     </form>

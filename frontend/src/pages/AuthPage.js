@@ -1,12 +1,11 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import Login from "../components/auth/login";
-import Signup from "../components/auth/signup";
+import Login from "../components/auth/Login";
+import Signup from "../components/auth/Signup";
 
 const AuthPage = () => {
-  let params = useParams();
-  console.log('authPath')
-  console.log(params.authPath)
+  const params = useParams();
+  console.log('authPath!', params.authPath)
 
   return <div>{params.authPath === "login" ? <Login /> : <Signup />}</div>;
 };

@@ -16,6 +16,10 @@ const Input = ({
     inputElement = (
       <input type={type} value={value} onChange={onChange} onBlur={onBlur} />
     );
+  } else if (type === "password") {
+    inputElement = (
+      <input type={type} value={value} onChange={onChange} onBlur={onBlur} />
+    );
   } else if (type === "textBox") {
     inputElement = (
       <textarea type={type} value={value} onChange={onChange} onBlur={onBlur} />
