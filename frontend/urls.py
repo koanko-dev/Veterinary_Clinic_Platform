@@ -10,6 +10,7 @@ urlpatterns = [
     path('clinics/<str:name>', views.index),
     path('reviews', views.index),
     path('reviews/<int:rnum>', views.index),
+    path('editor/reviews/', views.index),
     path('editor/reviews/<int:rnum>', views.index),
     path('articles', views.index),
     path('articles/<int:anum>', views.index),

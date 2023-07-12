@@ -6,6 +6,7 @@ import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import Layout from "./components/common/Layout";
 import ReviewListPage from "./pages/ReviewListPage";
+import EditReviewPage from "./pages/EditReviewPage";
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +24,8 @@ class App extends Component {
             <Route path="/clinics/:name" element={<p>clinic page</p>} />
             <Route path="/reviews" element={<ReviewListPage />} />
             <Route path="/reviews/:rnum" element={<p>review detail</p>} />
-            <Route path="/editor/reviews/:rnum" element={<p>review editor</p>} />
+            <Route path="/editor/reviews/" element={<EditReviewPage/>} />
+            <Route path="/editor/reviews/:rnum" element={<EditReviewPage/>} />
             <Route path="/articles" element={<p>article list</p>} />
             <Route path="/articles/:anum" element={<p>article detail</p>} />
             <Route path="/editor/articles/:anum" element={<p>article editor</p>} />

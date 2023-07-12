@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback, useContext } from "react";
-// import { useParams } from "react-router-dom";
 import axios from "../axios-post";
 
 import ReviewCard from "../components/review/ReviewCard";
@@ -13,7 +12,6 @@ const ReviewListPage = ({ match }) => {
   const [reviewContent, setReviewContent] = useState({});
 
   const modalCtx = useContext(ModalContext);
-//   const params = useParams();
 
   const fetchReviewListHandler = useCallback(async () => {
     setIsLoading(true);
@@ -30,8 +28,6 @@ const ReviewListPage = ({ match }) => {
 
   useEffect(() => {
     fetchReviewListHandler();
-    
-    // console.log(params);
   }, [fetchReviewListHandler]);
 
   const showModalHandler = (review) => {
