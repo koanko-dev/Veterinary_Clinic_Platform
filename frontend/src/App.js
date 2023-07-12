@@ -7,7 +7,7 @@ import HomePage from "./pages/HomePage";
 import Layout from "./components/common/Layout";
 import ReviewListPage from "./pages/ReviewListPage";
 
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
   }
@@ -37,5 +37,4 @@ export default class App extends Component {
   }
 }
 
-const appDiv = document.getElementById("app");
-render(<App />, appDiv);
+export default App;
