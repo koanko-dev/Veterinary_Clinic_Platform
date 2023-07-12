@@ -8,6 +8,7 @@ import Layout from "./components/common/Layout";
 import ReviewListPage from "./pages/ReviewListPage";
 import EditReviewPage from "./pages/EditReviewPage";
 import ArticleListPage from "./pages/ArticleListPage";
+import ArticleDetailPage from "./pages/ArticleDetailPage";
 
 class App extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class App extends Component {
             <Route path="/editor/reviews/" element={<EditReviewPage/>} />
             <Route path="/editor/reviews/:rnum" element={<EditReviewPage/>} />
             <Route path="/articles" element={<ArticleListPage/>} />
-            <Route path="/articles/:anum" element={<p>article detail</p>} />
+            <Route path="/articles/:anum" element={<ArticleDetailPage/>} />
             <Route path="/editor/articles/:anum" element={<p>article editor</p>} />
             <Route path="/auth/:authPath" element={<AuthPage />} />
             <Route path="/logout" element={<p>logout</p>} />
