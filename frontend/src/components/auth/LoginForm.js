@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Link, useNavigation, useSearchParams } from "react-router-dom";
 
 import useInput from "../../hooks/use-input";
 import Input from "../UI/Input";
@@ -9,6 +10,12 @@ const emailErrorMsg = "옳은 이메일 형식을 입력해주세요.";
 const emptyErrorMsg = "값을 입력해주세요.";
 
 const LoginForm = () => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
+  const [searchParams] = useSearchParams();
+  const isLogin = searchParams.get("mode") === "login";
+
   const {
     value: emailValue,
     isValid: emailIsValid,
@@ -33,29 +40,27 @@ const LoginForm = () => {
     formIsValid = true;
   }
 
-  const submitHandler = (event) => {
-    event.preventDefault();
+  // const submitHandler = (event) => {
+  //   event.preventDefault();
 
-    if (!formIsValid) {
-      return;
-    }
+  //   if (!formIsValid) {
+  //     return;
+  //   }
 
-    console.log("Submitted!");
-    console.log(emailValue, passwordValue);
+  //   resetEmail();
+  //   resetPassword();
+  // };
 
-    resetEmail();
-    resetPassword();
-  };
-
-  const emailClasses = emailHasError ? "emailStyle invalid" : "emailStyle";
-  const passwordClasses = passwordHasError
-    ? "passwordStyle invalid"
-    : "passwordStyle";
+  // const emailClasses = emailHasError ? "emailStyle invalid" : "emailStyle";
+  // const passwordClasses = passwordHasError
+  //   ? "passwordStyle invalid"
+  //   : "passwordStyle";
 
   return (
-    <form onSubmit={submitHandler}>
+    <Form method="post">
       <Input
         label={"이메일"}
+        name={"email"}
         type={"textLine"}
         value={emailValue}
         onChange={emailChangeHandler}
@@ -65,6 +70,7 @@ const LoginForm = () => {
       />
       <Input
         label={"비밀번호"}
+        name={"password"}
         type={"password"}
         value={passwordValue}
         onChange={passwordChangeHandler}
@@ -73,9 +79,14 @@ const LoginForm = () => {
         errorMsg={emptyErrorMsg}
       />
       <div>
-        <button disabled={!formIsValid}>로그인</button>
+        <Link to={`?mode=${isLogin ? "signup" : "login"}`}>
+          {isLogin ? "회원가입" : "로그인"}
+        </Link>
+        <button disabled={isSubmitting | !formIsValid}>
+          {isSubmitting ? "로그인중..." : "로그인"}
+        </button>
       </div>
-    </form>
+    </Form>
   );
 };
 

@@ -3,9 +3,8 @@ import { render } from "react-dom";
 // import { BrowserRouter, Routes, Route, Link, Redirect } from "react-router-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import AuthPage from "./pages/AuthPage";
+import AuthPage, { action as authAction } from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
-import Layout from "./components/common/Layout";
 import ReviewListPage, {
   loader as reviewsLoader,
 } from "./pages/ReviewListPage";
@@ -23,15 +22,20 @@ import ErrorPage from "./pages/ErrorPage";
 import ClinicRootLayout from "./pages/layout/ClinicRootLayout";
 import ReviewRootLayout from "./pages/layout/ReviewRootLayout";
 import ArticleRootLayout from "./pages/layout/ArticleRootLayout";
+import { tokenLoader } from "./util/auth";
+import { action as logoutAction } from "./pages/Logout";
+import UserProfilePage from "./pages/UserProfilePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    id: "root",
+    loader: tokenLoader,
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "user/:name", element: <p>user profile</p> },
+      { path: "user/:name", element: <UserProfilePage /> },
       {
         path: "clinics",
         element: <ClinicRootLayout />,
@@ -92,11 +96,11 @@ const router = createBrowserRouter([
       {
         path: "auth",
         element: <AuthPage />,
-        // action: authAction
+        action: authAction,
       },
       {
         path: "logout",
-        // action: logoutAction
+        action: logoutAction,
       },
     ],
   },

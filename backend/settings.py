@@ -179,8 +179,13 @@ REST_FRAMEWORK = {
     ]
 }
 
-# LOGIN_REDIRECT_URL = '/'
+# Prevent session login
+REST_AUTH = {
+    'SESSION_LOGIN': False
+}
 
+# LOGIN_REDIRECT_URL = '/'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Actual directory user files go to

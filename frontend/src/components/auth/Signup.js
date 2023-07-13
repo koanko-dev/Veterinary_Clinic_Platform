@@ -4,7 +4,7 @@ import SignupForm from './SignupForm';
 const Signup = () => {
     return (
         <div>
-            <h2>Signup page</h2>
+            <h2>회원가입</h2>
             <SignupForm />
         </div>
     );

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Form, Link, NavLink, useRouteLoaderData } from "react-router-dom";
 
-const NavBar = ({ userName }) => {
+const NavBar = () => {
+  const token = useRouteLoaderData("root");
+  const dummyUserName = 'foo';
+
   return (
     <header>
       <nav>
@@ -19,15 +22,23 @@ const NavBar = ({ userName }) => {
             <NavLink to="/articles">아티클</NavLink>
           </li>
 
-          <li>
-            <NavLink to={`/user/${userName}`}>프로필</NavLink>
-          </li>
-          <li>
-            <NavLink to="/auth?mode=login">로그인</NavLink>
-          </li>
-          <li>
-            <NavLink to="/logout">로그아웃</NavLink>
-          </li>
+          {token && (
+            <>
+              <li>
+                <NavLink to={`/user/${dummyUserName}`}>프로필</NavLink>
+              </li>
+              <li>
+                <Form method="post" action="/logout">
+                  <button>로그아웃</button>
+                </Form>
+              </li>
+            </>
+          )}
+          {!token && (
+            <li>
+              <NavLink to="/auth?mode=login">로그인</NavLink>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
