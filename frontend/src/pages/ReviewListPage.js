@@ -69,7 +69,6 @@ const ReviewListPage = ({ match }) => {
         <ReviewModal onClose={modalCtx.onCloseModal} review={reviewContent} />
       )}
       <div>
-        <h2>동물병원 후기</h2>
         <ul>{content}</ul>
       </div>
     </>

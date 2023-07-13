@@ -62,7 +62,6 @@ const ArticleListPage = (props) => {
 
   return (
     <div>
-      <h2>아티클</h2>
       <ul>{content}</ul>
     </div>
   );

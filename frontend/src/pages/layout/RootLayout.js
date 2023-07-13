@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, useNavigation } from "react-router-dom";
 
-import NavBar from "../components/common/NavBar";
+import NavBar from "../../components/common/NavBar";
 
 const RootLayout = () => {
   // const navigation = useNavigation();

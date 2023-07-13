@@ -10,8 +10,11 @@ import ReviewListPage from "./pages/ReviewListPage";
 import EditReviewPage from "./pages/EditReviewPage";
 import ArticleListPage from "./pages/ArticleListPage";
 import ArticleDetailPage from "./pages/ArticleDetailPage";
-import RootLayout from "./pages/RootLayout";
+import RootLayout from "./pages/layout/RootLayout";
 import ErrorPage from "./pages/ErrorPage";
+import ClinicRootLayout from "./pages/layout/ClinicRootLayout";
+import ReviewRootLayout from "./pages/layout/ReviewRootLayout";
+import ArticleRootLayout from "./pages/layout/ArticleRootLayout";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +26,7 @@ const router = createBrowserRouter([
       { path: "user/:name", element: <p>user profile</p> },
       {
         path: "clinics",
-        // element: <ClinicRootLayout/>
+        element: <ClinicRootLayout/>,
         children: [
           { index: true, element: <p>clinic list</p> },
           { path: ":name", element: <p>clinic page</p> },
@@ -31,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: "reviews",
-        // element: <ReviewRootLayout/>
+        element: <ReviewRootLayout/>,
         children: [
           { index: true, element: <ReviewListPage /> },
           {
@@ -47,7 +50,7 @@ const router = createBrowserRouter([
       },
       {
         path: "articles",
-        // element: <ArticleRootLayout/>
+        element: <ArticleRootLayout/>,
         children: [
           { index: true, element: <ArticleListPage /> },
           {
