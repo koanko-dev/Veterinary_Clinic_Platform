@@ -6,7 +6,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import Layout from "./components/common/Layout";
-import ReviewListPage from "./pages/ReviewListPage";
+import ReviewListPage, {
+  loader as reviewsLoader,
+} from "./pages/ReviewListPage";
+import ReviewDetailPage, {
+  loader as reviewDetailLoader,
+  deleteReviewAction
+} from "./pages/ReviewDetailPage";
 import EditReviewPage from "./pages/EditReviewPage";
 import ArticleListPage from "./pages/ArticleListPage";
 import ArticleDetailPage from "./pages/ArticleDetailPage";
@@ -26,7 +32,7 @@ const router = createBrowserRouter([
       { path: "user/:name", element: <p>user profile</p> },
       {
         path: "clinics",
-        element: <ClinicRootLayout/>,
+        element: <ClinicRootLayout />,
         children: [
           { index: true, element: <p>clinic list</p> },
           { path: ":name", element: <p>clinic page</p> },
@@ -34,15 +40,28 @@ const router = createBrowserRouter([
       },
       {
         path: "reviews",
-        element: <ReviewRootLayout/>,
+        element: <ReviewRootLayout />,
         children: [
-          { index: true, element: <ReviewListPage /> },
+          {
+            index: true,
+            element: <ReviewListPage />,
+            loader: reviewsLoader,
+          },
           {
             path: ":rnum",
             id: "review-detail",
+            loader: reviewDetailLoader,
             children: [
-              { index: true, element: <p>review detail</p> },
-              { path: "edit", element: <EditReviewPage /> },
+              {
+                index: true,
+                element: <ReviewDetailPage />,
+                action: deleteReviewAction,
+              },
+              {
+                path: "edit",
+                element: <EditReviewPage />,
+                // action: editReviewAction,
+              },
             ],
           },
           { path: "new", element: <EditReviewPage /> },
@@ -50,7 +69,7 @@ const router = createBrowserRouter([
       },
       {
         path: "articles",
-        element: <ArticleRootLayout/>,
+        element: <ArticleRootLayout />,
         children: [
           { index: true, element: <ArticleListPage /> },
           {
@@ -65,14 +84,14 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'auth',
+        path: "auth",
         element: <AuthPage />,
         // action: authAction
       },
       {
-        path: 'logout',
+        path: "logout",
         // action: logoutAction
-      }
+      },
     ],
   },
 ]);

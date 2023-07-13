@@ -1,34 +1,17 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
+import React, { useState, useContext } from "react";
+import { useLoaderData } from "react-router-dom";
 import axios from "../axios-post";
 
 import ReviewCard from "../components/review/ReviewCard";
 import ReviewModal from "../components/review/ReviewModal";
 import ModalContext from "../store/modal-context";
 
-const ReviewListPage = ({ match }) => {
-  const [reviewList, setReviewList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+const ReviewListPage = () => {
+  const { data } = useLoaderData();
+  const reviewList = data;
   const [reviewContent, setReviewContent] = useState({});
 
   const modalCtx = useContext(ModalContext);
-
-  const fetchReviewListHandler = useCallback(async () => {
-    setIsLoading(true);
-
-    try {
-      const res = await axios.get("reviews/");
-      setReviewList(res.data);
-    } catch (err) {
-      setError(err.message);
-    }
-
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    fetchReviewListHandler();
-  }, [fetchReviewListHandler]);
 
   const showModalHandler = (review) => {
     setReviewContent(review);
@@ -55,13 +38,9 @@ const ReviewListPage = ({ match }) => {
     content = reviews;
   }
 
-  if (error) {
-    content = <p>{error}</p>;
-  }
-
-  if (isLoading) {
-    content = <p>Loading...</p>;
-  }
+  // if (error) {
+  //   content = <p>{error}</p>;
+  // }
 
   return (
     <>
@@ -76,3 +55,12 @@ const ReviewListPage = ({ match }) => {
 };
 
 export default ReviewListPage;
+
+export const loader = async () => {
+  try {
+    const response = await axios.get("reviews/");
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
