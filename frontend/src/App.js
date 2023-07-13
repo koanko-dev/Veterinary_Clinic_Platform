@@ -11,9 +11,11 @@ import ReviewListPage, {
 } from "./pages/ReviewListPage";
 import ReviewDetailPage, {
   loader as reviewDetailLoader,
-  deleteReviewAction
+  deleteReviewAction,
 } from "./pages/ReviewDetailPage";
+import { action as manipulateReviewAction } from "./components/review/ReviewForm";
 import EditReviewPage from "./pages/EditReviewPage";
+import NewReviewPage from "./pages/NewReviewPage";
 import ArticleListPage from "./pages/ArticleListPage";
 import ArticleDetailPage from "./pages/ArticleDetailPage";
 import RootLayout from "./pages/layout/RootLayout";
@@ -60,11 +62,15 @@ const router = createBrowserRouter([
               {
                 path: "edit",
                 element: <EditReviewPage />,
-                // action: editReviewAction,
+                action: manipulateReviewAction,
               },
             ],
           },
-          { path: "new", element: <EditReviewPage /> },
+          {
+            path: "new",
+            element: <NewReviewPage />,
+            action: manipulateReviewAction,
+          },
         ],
       },
       {

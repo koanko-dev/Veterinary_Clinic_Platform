@@ -1,28 +1,13 @@
 import React from "react";
-import { useRouteLoaderData, redirect, useSubmit } from "react-router-dom";
+import { useRouteLoaderData, redirect } from "react-router-dom";
 
 import axios from "../axios-post";
+import ReviewDetail from "../components/review/ReviewDetail";
 
 const ReviewDetailPage = () => {
   const { data } = useRouteLoaderData("review-detail");
-  const submit = useSubmit();
 
-  const deleteReviewHandler = () => {
-    const proceed = window.confirm("Are you sure?");
-
-    if (proceed) {
-      submit(null, { method: "delete" });
-    }
-  };
-
-  return (
-    <>
-      <h2>ReviewDetailPage</h2>
-      <p>{data.title}</p>
-      <p>{data.content}</p>
-      <button onClick={deleteReviewHandler}>삭제</button>
-    </>
-  );
+  return <ReviewDetail review={data} />;
 };
 
 export default ReviewDetailPage;
@@ -40,12 +25,12 @@ export const loader = async ({ params }) => {
 
 export const deleteReviewAction = async ({ params, request }) => {
   const reviewId = params.rnum;
-  const dummyToken = 'adsjfiajoesifaw';
+  const dummyToken = "adsjfiajoesifaw";
 
   if (request.method === "DELETE") {
     try {
       await axios.delete(`reviews/${reviewId}/`, {
-        headers: `Token ${dummyToken}`
+        headers: `Token ${dummyToken}`,
       });
       return redirect("/reviews");
     } catch (err) {

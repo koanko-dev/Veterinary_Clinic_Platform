@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Form, redirect, useNavigate, useNavigation } from "react-router-dom";
+
+import axios from "../../axios-post";
 import useInput from "../../hooks/use-input";
 import {
   areas,
@@ -8,13 +11,19 @@ import {
 import Input from "../UI/Input";
 
 const isNotEmpty = (value) => value.trim() !== "";
+const isAlwaysTrue = (value) => true;
 const isClinicArea = (value) => areas.includes(value);
 const isPetSpecies = (value) => petSpecies.includes(value);
 const isClinicCategory = (value) => clinicCategories.includes(value);
 const emptyErrorMsg = "값을 입력해주세요.";
 const valueErrorMsg = "옳은 값을 입력해주세요.";
 
-const ReviewForm = (props) => {
+const ReviewForm = ({ method, review }) => {
+  const navigate = useNavigate();
+  const navigation = useNavigation();
+
+  const isSubmitting = navigation.state === "submitting";
+
   // const {clinic_id}
   const {
     value: clinicAreaValue,
@@ -23,6 +32,7 @@ const ReviewForm = (props) => {
     valueChangeHandler: clinicAreaChangeHandler,
     inputBlurHandler: clinicAreaBlurHandler,
     reset: resetClinicArea,
+    setDefaultValueHandler: setDefaultClinicAreaValueHandler,
   } = useInput(isClinicArea);
 
   const {
@@ -32,6 +42,7 @@ const ReviewForm = (props) => {
     valueChangeHandler: titleChangeHandler,
     inputBlurHandler: titleBlurHandler,
     reset: resetTitle,
+    setDefaultValueHandler: setDefaultTitleValueHandler,
   } = useInput(isNotEmpty);
 
   const {
@@ -41,6 +52,7 @@ const ReviewForm = (props) => {
     valueChangeHandler: petSpeciesChangeHandler,
     inputBlurHandler: petSpeciesBlurHandler,
     reset: resetPetSpecies,
+    setDefaultValueHandler: setDefaultPetSpeciesValueHandler,
   } = useInput(isPetSpecies);
 
   const {
@@ -50,6 +62,7 @@ const ReviewForm = (props) => {
     valueChangeHandler: clinicCategoryChangeHandler,
     inputBlurHandler: clinicCategoryBlurHandler,
     reset: resetClinicCategory,
+    setDefaultValueHandler: setDefaultClinicCategoryValueHandler,
   } = useInput(isClinicCategory);
 
   const {
@@ -59,7 +72,8 @@ const ReviewForm = (props) => {
     valueChangeHandler: priceChangeHandler,
     inputBlurHandler: priceBlurHandler,
     reset: resetPrice,
-  } = useInput(isNotEmpty);
+    setDefaultValueHandler: setDefaultPriceValueHandler,
+  } = useInput(isAlwaysTrue);
 
   const {
     value: contentValue,
@@ -68,6 +82,7 @@ const ReviewForm = (props) => {
     valueChangeHandler: contentChangeHandler,
     inputBlurHandler: contentBlurHandler,
     reset: resetContent,
+    setDefaultValueHandler: setDefaultContentValueHandler,
   } = useInput(isNotEmpty);
 
   const {
@@ -77,7 +92,18 @@ const ReviewForm = (props) => {
     valueChangeHandler: ratingChangeHandler,
     inputBlurHandler: ratingBlurHandler,
     reset: resetRating,
-  } = useInput(isNotEmpty);
+    setDefaultValueHandler: setDefaultRatingValueHandler,
+  } = useInput(isAlwaysTrue);
+
+  useEffect(() => {
+    setDefaultClinicAreaValueHandler(review ? review.clinic_area : "");
+    setDefaultTitleValueHandler(review ? review.title : "");
+    setDefaultPetSpeciesValueHandler(review ? review.pet_species : "");
+    setDefaultClinicCategoryValueHandler(review ? review.clinic_category : "");
+    setDefaultPriceValueHandler(review ? review.price : "");
+    setDefaultContentValueHandler(review ? review.content : "");
+    setDefaultRatingValueHandler(review ? review.rating : "")
+  }, []);
 
   let formIsValid = false;
 
@@ -93,42 +119,36 @@ const ReviewForm = (props) => {
     formIsValid = true;
   }
 
-  const submitHandler = (event) => {
-    event.preventDefault();
+  // const submitHandler = (event) => {
+  //   event.preventDefault();
 
-    if (!formIsValid) {
-      return;
-    }
+  //   if (!formIsValid) {
+  //     return;
+  //   }
 
-    console.log("Submitted!");
-    console.log(
-      clinicAreaValue,
-      titleValue,
-      petSpeciesValue,
-      clinicCategoryValue,
-      priceValue,
-      contentValue,
-      ratingValue
-    );
+  //   resetClinicArea();
+  //   resetTitle();
+  //   resetPetSpecies();
+  //   resetClinicCategory();
+  //   resetPrice();
+  //   resetContent();
+  //   resetRating();
+  // };
 
-    resetClinicArea();
-    resetTitle();
-    resetPetSpecies();
-    resetClinicCategory();
-    resetPrice();
-    resetContent();
-    resetRating();
+  // const titleClasses = titleHasError ? "titleStyle invalid" : "titleStyle";
+  // const petSpeciesClasses = petSpeciesHasError
+  //   ? "titleStyle invalid"
+  //   : "titleStyle";
+
+  const cancelHandler = () => {
+    navigate("..");
   };
 
-  const titleClasses = titleHasError ? "titleStyle invalid" : "titleStyle";
-  const petSpeciesClasses = petSpeciesHasError
-    ? "titleStyle invalid"
-    : "titleStyle";
-
   return (
-    <form onSubmit={submitHandler}>
+    <Form method={method}>
       <Input
         label={"후기 제목"}
+        name={"title"}
         type={"textLine"}
         value={titleValue}
         onChange={titleChangeHandler}
@@ -139,6 +159,7 @@ const ReviewForm = (props) => {
       {/* img input */}
       <Input
         label={"반려동물 종류"}
+        name={"pet_species"}
         type={"select"}
         options={petSpecies}
         value={petSpeciesValue}
@@ -149,6 +170,7 @@ const ReviewForm = (props) => {
       />
       <Input
         label={"진료 카테고리"}
+        name={"clinic_category"}
         type={"select"}
         options={clinicCategories}
         value={clinicCategoryValue}
@@ -159,6 +181,7 @@ const ReviewForm = (props) => {
       />
       <Input
         label={"진료 가격"}
+        name={"price"}
         type={"number"}
         value={priceValue}
         onChange={priceChangeHandler}
@@ -168,6 +191,7 @@ const ReviewForm = (props) => {
       />
       <Input
         label={"동물병원 지역"}
+        name={"clinic_area"}
         type={"select"}
         options={areas}
         value={clinicAreaValue}
@@ -178,6 +202,7 @@ const ReviewForm = (props) => {
       />
       <Input
         label={"후기 내용"}
+        name={"content"}
         type={"textBox"}
         value={contentValue}
         onChange={contentChangeHandler}
@@ -187,6 +212,7 @@ const ReviewForm = (props) => {
       />
       <Input
         label={"평점"}
+        name={"rating"}
         type={"number"}
         value={ratingValue}
         onChange={ratingChangeHandler}
@@ -196,10 +222,58 @@ const ReviewForm = (props) => {
       />
 
       <div>
-        <button disabled={!formIsValid}>저장</button>
+        <button type="button" onClick={cancelHandler} disabled={isSubmitting}>
+          취소
+        </button>
+        <button disabled={!formIsValid | isSubmitting}>
+          {isSubmitting ? "저장중..." : "저장"}
+        </button>
       </div>
-    </form>
+    </Form>
   );
 };
 
 export default ReviewForm;
+
+export const action = async ({ request, params }) => {
+  const method = request.method;
+  console.log("method", method);
+  const data = await request.formData();
+
+  const reviewData = {
+    clinic_id: 1,
+    clinic_area: data.get("clinic_area"),
+    title: data.get("title"),
+    img: data.get("img"),
+    pet_species: data.get("pet_species"),
+    clinic_category: data.get("clinic_category"),
+    price: data.get("price"),
+    content: data.get("content"),
+    rating: data.get("rating"),
+  };
+
+  const token = getAuthToken();
+
+  if (method === "PUT") {
+    const reviewId = params.rnum;
+    try {
+      const response = await axios.put(`reviews/${reviewId}/`, {
+        data: reviewData,
+        headers: `Token ${token}`,
+      });
+      redirect("/reviews");
+    } catch (err) {
+      console.log("err", err);
+    }
+  } else {
+    try {
+      const response = await axios.put(`reviews/`, {
+        data: reviewData,
+        headers: `Token ${token}`,
+      });
+      redirect("/reviews");
+    } catch (err) {
+      console.log("err", err);
+    }
+  }
+};

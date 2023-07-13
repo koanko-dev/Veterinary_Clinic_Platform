@@ -2,6 +2,7 @@ import React from "react";
 
 const Input = ({
   label,
+  name,
   type,
   value,
   onChange,
@@ -14,15 +15,27 @@ const Input = ({
 
   if (type === "textLine") {
     inputElement = (
-      <input type={type} value={value} onChange={onChange} onBlur={onBlur} />
+      <input
+        type="text"
+        name={name}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
     );
   } else if (type === "password") {
     inputElement = (
-      <input type={type} value={value} onChange={onChange} onBlur={onBlur} />
+      <input
+        type="password"
+        name={name}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
     );
   } else if (type === "textBox") {
     inputElement = (
-      <textarea type={type} value={value} onChange={onChange} onBlur={onBlur} />
+      <textarea name={name} value={value} onChange={onChange} onBlur={onBlur} />
     );
   } else if (type === "select" && options) {
     const optionElements = options.map((option) => {
@@ -34,8 +47,8 @@ const Input = ({
     });
 
     inputElement = (
-      <select value={value} onChange={onChange} onBlur={onBlur}>
-        <option value="" defaultValue disabled hidden>
+      <select name={name} value={value} onChange={onChange} onBlur={onBlur}>
+        <option value="" disabled hidden>
           -------
         </option>
         {optionElements}
@@ -43,7 +56,13 @@ const Input = ({
     );
   } else if (type === "number") {
     inputElement = (
-      <input type={type} value={value} onChange={onChange} onBlur={onBlur} />
+      <input
+        name={name}
+        type="number"
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
     );
   }
 
