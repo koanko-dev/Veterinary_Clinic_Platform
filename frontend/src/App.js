@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
-import { BrowserRouter, Routes, Route, Link, Redirect } from "react-router-dom";
+// import { BrowserRouter, Routes, Route, Link, Redirect } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
@@ -9,36 +10,72 @@ import ReviewListPage from "./pages/ReviewListPage";
 import EditReviewPage from "./pages/EditReviewPage";
 import ArticleListPage from "./pages/ArticleListPage";
 import ArticleDetailPage from "./pages/ArticleDetailPage";
+import RootLayout from "./pages/RootLayout";
+import ErrorPage from "./pages/ErrorPage";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "user/:name", element: <p>user profile</p> },
+      {
+        path: "clinics",
+        // element: <ClinicRootLayout/>
+        children: [
+          { index: true, element: <p>clinic list</p> },
+          { path: ":name", element: <p>clinic page</p> },
+        ],
+      },
+      {
+        path: "reviews",
+        // element: <ReviewRootLayout/>
+        children: [
+          { index: true, element: <ReviewListPage /> },
+          {
+            path: ":rnum",
+            id: "review-detail",
+            children: [
+              { index: true, element: <p>review detail</p> },
+              { path: "edit", element: <EditReviewPage /> },
+            ],
+          },
+          { path: "new", element: <EditReviewPage /> },
+        ],
+      },
+      {
+        path: "articles",
+        // element: <ArticleRootLayout/>
+        children: [
+          { index: true, element: <ArticleListPage /> },
+          {
+            path: ":anum",
+            id: "article-detail",
+            children: [
+              { index: true, element: <ArticleDetailPage /> },
+              { path: "edit", element: <p>article editor</p> },
+            ],
+          },
+          { path: "new", element: <p>article editor</p> },
+        ],
+      },
+      {
+        path: 'auth',
+        element: <AuthPage />,
+        // action: authAction
+      },
+      {
+        path: 'logout',
+        // action: logoutAction
+      }
+    ],
+  },
+]);
 
-  render() {
-    return (
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route exact path="/" element={<HomePage />} />
-            <Route path="/user/:name" element={<p>user profile</p>} />
-            <Route path="/clinics" element={<p>clinic list</p>} />
-            <Route path="/clinics/:name" element={<p>clinic page</p>} />
-            <Route path="/reviews" element={<ReviewListPage />} />
-            <Route path="/reviews/:rnum" element={<p>review detail</p>} />
-            <Route path="/editor/reviews/" element={<EditReviewPage/>} />
-            <Route path="/editor/reviews/:rnum" element={<EditReviewPage/>} />
-            <Route path="/articles" element={<ArticleListPage/>} />
-            <Route path="/articles/:anum" element={<ArticleDetailPage/>} />
-            <Route path="/editor/articles/:anum" element={<p>article editor</p>} />
-            <Route path="/auth/:authPath" element={<AuthPage />} />
-            <Route path="/logout" element={<p>logout</p>} />
-            <Route path="*" element={<p>not found</p>} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    );
-  }
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;

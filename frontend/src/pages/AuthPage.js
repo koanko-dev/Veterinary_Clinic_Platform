@@ -1,13 +1,13 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import Login from "../components/auth/Login";
 import Signup from "../components/auth/Signup";
 
 const AuthPage = () => {
-  const params = useParams();
-  console.log('authPath!', params.authPath)
+  const [searchParams] = useSearchParams();
+  const isLogin = searchParams.get('mode') === 'login';
 
-  return <div>{params.authPath === "login" ? <Login /> : <Signup />}</div>;
+  return <div>{isLogin ? <Login /> : <Signup />}</div>;
 };
 
 export default AuthPage;
