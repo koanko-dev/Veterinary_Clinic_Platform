@@ -27,6 +27,12 @@ import { action as logoutAction } from "./pages/Logout";
 import UserProfilePage, {
   loader as userProfileLoader,
 } from "./pages/UserProfilePage";
+import ClinicListPage, {
+  loader as clinicListLoader,
+} from "./pages/ClinicListPage";
+import ClinicHome, {
+  loader as clinicDetailLoader,
+} from "./components/clinic/ClinicHome";
 
 const router = createBrowserRouter([
   {
@@ -46,8 +52,16 @@ const router = createBrowserRouter([
         path: "clinics",
         element: <ClinicRootLayout />,
         children: [
-          { index: true, element: <p>clinic list</p> },
-          { path: ":name", element: <p>clinic page</p> },
+          {
+            index: true,
+            element: <ClinicListPage />,
+            loader: clinicListLoader,
+          },
+          {
+            path: ":name",
+            element: <ClinicHome />,
+            loader: clinicDetailLoader,
+          },
         ],
       },
       {

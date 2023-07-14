@@ -1,50 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import axios from "../../axios-post";
-import { getAuthToken, getUserId } from "../../util/auth";
 import { Link } from "react-router-dom";
 
 const ClinicUserProfile = ({ userData }) => {
-  const myId = getUserId();
-
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [followerNum, setFollowerNum] = useState(null);
-
-  useEffect(() => {
-    const isFollowing =
-      userData.followers.filter((follower) => follower.user.id === +myId)
-        .length > 0;
-    setIsFollowing(isFollowing);
-    setFollowerNum(userData.followers.length);
-  }, []);
-
-  const followHandler = async () => {
-    const clinicId = userData.id;
-
-    try {
-      const token = getAuthToken();
-      await axios.post(
-        `accounts/follow/${clinicId}/`,
-        {},
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
-
-      if (isFollowing) {
-        setFollowerNum(followerNum - 1);
-      } else {
-        setFollowerNum(followerNum + 1);
-      }
-
-      setIsFollowing(!isFollowing);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <div>
       <section>
@@ -68,24 +26,24 @@ const ClinicUserProfile = ({ userData }) => {
       </section>
 
       <section>
-        <button onClick={followHandler}>
-          {isFollowing ? "언팔로우" : "팔로우"}
-        </button>
         <h3>팔로워</h3>
-        <div>{followerNum}</div>
+        <div>{userData.followers.length}</div>
       </section>
 
       <section>
         <h3>병원 리뷰</h3>
         <div>
-          {userData.reviews.length > 0 &&
+          {userData.reviews.length > 0 ? (
             userData.reviews.map((review) => {
               return (
-                <div key={review.id}>
+                <p key={review.id}>
                   <Link to={`/reviews/${review.id}`}>{review.title}</Link>
-                </div>
+                </p>
               );
-            })}
+            })
+          ) : (
+            <p>작성된 리뷰가 없습니다.</p>
+          )}
         </div>
       </section>
     </div>

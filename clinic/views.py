@@ -15,6 +15,12 @@ def clinics(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def clinic_detail(request, name):
+    clinic = get_object_or_404(Clinic, clinic_name=name)
+    serializer = ClinicSerializer(clinic)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def search_clinics(request):
     address_area = request.GET.get('address_area')
     specialized_field = request.GET.get('specialized_field')

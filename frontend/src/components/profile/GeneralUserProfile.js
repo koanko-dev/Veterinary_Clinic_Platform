@@ -39,7 +39,7 @@ const GeneralUserProfile = ({ userData }) => {
             userData.following_clinics.map((following_clinic) => {
               return (
                 <div key={following_clinic.id}>
-                  <Link to={`/user/${following_clinic.user.id}`}>
+                  <Link to={`/clinics/${following_clinic.clinic_name}`}>
                     {following_clinic.clinic_name}
                   </Link>
                 </div>
