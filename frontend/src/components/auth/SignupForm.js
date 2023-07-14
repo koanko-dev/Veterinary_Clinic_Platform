@@ -2,7 +2,6 @@ import React from "react";
 
 import useInput from "../../hooks/use-input";
 import Input from "../UI/Input";
-import { Form, Link, useNavigation, useSearchParams } from "react-router-dom";
 
 const isEmail = (value) => value.includes("@");
 const isNotEmpty = (value) => value.trim() !== "";
@@ -10,13 +9,7 @@ const isNotEmpty = (value) => value.trim() !== "";
 const emailErrorMsg = "옳은 이메일 형식을 입력해주세요.";
 const emptyErrorMsg = "값을 입력해주세요.";
 
-const SignupForm = () => {
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
-
-  const [searchParams] = useSearchParams();
-  const isLogin = searchParams.get("mode") === "login";
-
+const SignupForm = ({checkValidation}) => {
   const {
     value: emailValue,
     isValid: emailIsValid,
@@ -53,24 +46,9 @@ const SignupForm = () => {
     reset: resetPassword2,
   } = useInput(isNotEmpty);
 
-  let formIsValid = false;
-
   if (emailIsValid && usernameIsValid && password1IsValid && password2IsValid) {
-    formIsValid = true;
+    checkValidation(true);
   }
-
-  // const submitHandler = (event) => {
-  //   event.preventDefault();
-
-  //   if (!formIsValid) {
-  //     return;
-  //   }
-
-  //   resetEmail();
-  //   resetUsername();
-  //   resetPassword1();
-  //   resetPassword2();
-  // };
 
   // const usernameClasses = usernameHasError
   //   ? "usernameStyle invalid"
@@ -78,7 +56,7 @@ const SignupForm = () => {
   // const emailClasses = emailHasError ? "emailStyle invalid" : "emailStyle";
 
   return (
-    <Form method="post">
+    <>
       <Input
         label={"이메일"}
         name={"email"}
@@ -119,15 +97,7 @@ const SignupForm = () => {
         hasError={password2HasError}
         errorMsg={emptyErrorMsg}
       />
-      <div>
-        <Link to={`?mode=${isLogin ? "signup" : "login"}`}>
-          {isLogin ? "회원가입" : "로그인"}
-        </Link>
-        <button disabled={isSubmitting | !formIsValid}>
-          {isSubmitting ? "회원가입중..." : "회원가입"}
-        </button>
-      </div>
-    </Form>
+    </>
   );
 };
 

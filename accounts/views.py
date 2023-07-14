@@ -238,8 +238,10 @@ def profile(request, username):
 @api_view(['POST'])
 def save_info_by_group(request, user_pk):
     user = get_object_or_404(get_user_model(), pk=user_pk)
+    group = request.data.get('group')
 
-    if user.groups.all():
+    if group == 'clinic':
+        user.groups.add(1)
         serializer = ClinicSerializer(data=request.data)
     else:
         serializer = GeneralUserSerializer(data=request.data)
