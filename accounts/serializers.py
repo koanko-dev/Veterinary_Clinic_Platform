@@ -35,9 +35,10 @@ class ClinicSerializer(serializers.ModelSerializer):
 
 class GeneralUserSerializer(serializers.ModelSerializer):
     class ClinicSerializer(serializers.ModelSerializer):
+        user = UserSerializer(read_only=True)
         class Meta:
             model = Clinic
-            fields = ('id', 'clinic_name', 'bio', 'address', 'address_area', 'specialized_field', 'specialized_species', 'rating',)
+            fields = ('id', 'user', 'clinic_name', 'bio', 'address', 'address_area', 'specialized_field', 'specialized_species', 'rating',)
 
     user = UserSerializer(read_only=True)
     following_clinics = ClinicSerializer(read_only=True, many=True)

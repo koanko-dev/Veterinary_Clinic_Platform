@@ -33,6 +33,7 @@ BASE_URL = 'http://localhost:8000/'
 state = os.getenv("STATE")
 GOOGLE_CALLBACK_URI = BASE_URL + 'api/accounts/google/callback/'
 
+
 def google_login(request):
     scope = "https://www.googleapis.com/auth/userinfo.email"
     client_id = os.getenv("SOCIAL_AUTH_GOOGLE_CLIENT_ID")
@@ -45,30 +46,32 @@ def google_callback(request):
     code = request.GET.get('code')
 
     # 1. 받은 코드로 구글에 access token 요청
-    token_req = requests.post(f"https://oauth2.googleapis.com/token?client_id={client_id}&client_secret={client_secret}&code={code}&grant_type=authorization_code&redirect_uri={GOOGLE_CALLBACK_URI}&state={state}")
-    
-    ### 1-1. json으로 변환 & 에러 부분 파싱
+    token_req = requests.post(
+        f"https://oauth2.googleapis.com/token?client_id={client_id}&client_secret={client_secret}&code={code}&grant_type=authorization_code&redirect_uri={GOOGLE_CALLBACK_URI}&state={state}")
+
+    # 1-1. json으로 변환 & 에러 부분 파싱
     token_req_json = token_req.json()
     error = token_req_json.get("error")
 
-    ### 1-2. 에러 발생 시 종료
+    # 1-2. 에러 발생 시 종료
     if error is not None:
         raise JSONDecodeError(error)
 
-    ### 1-3. 성공 시 access_token 가져오기
+    # 1-3. 성공 시 access_token 가져오기
     access_token = token_req_json.get('access_token')
 
     #################################################################
 
     # 2. 가져온 access_token으로 이메일값을 구글에 요청
-    email_req = requests.get(f"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={access_token}")
+    email_req = requests.get(
+        f"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={access_token}")
     email_req_status = email_req.status_code
 
-    ### 2-1. 에러 발생 시 400 에러 반환
+    # 2-1. 에러 발생 시 400 에러 반환
     if email_req_status != 200:
         return JsonResponse({'err_msg': 'failed to get email'}, status=status.HTTP_400_BAD_REQUEST)
-    
-    ### 2-2. 성공 시 이메일 가져오기
+
+    # 2-2. 성공 시 이메일 가져오기
     email_req_json = email_req.json()
     email = email_req_json.get('email')
 
@@ -88,7 +91,8 @@ def google_callback(request):
 
         # 이미 Google로 제대로 가입된 유저 => 로그인 & 해당 유저의 key 발급
         data = {'access_token': access_token, 'code': code}
-        accept = requests.post(f"{BASE_URL}api/accounts/google/login/finish/", data=data)
+        accept = requests.post(
+            f"{BASE_URL}api/accounts/google/login/finish/", data=data)
         accept_status = accept.status_code
 
         if accept_status != 200:
@@ -101,7 +105,8 @@ def google_callback(request):
     except User.DoesNotExist:
         # 전달받은 이메일로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 key 발급
         data = {'access_token': access_token, 'code': code}
-        accept = requests.post(f"{BASE_URL}api/accounts/google/login/finish/", data=data)
+        accept = requests.post(
+            f"{BASE_URL}api/accounts/google/login/finish/", data=data)
         accept_status = accept.status_code
 
         if accept_status != 200:
@@ -113,8 +118,8 @@ def google_callback(request):
         user.username = email.split('@')[0]
         user.save()
         return JsonResponse(accept_json)
-        
-	# except SocialAccount.DoesNotExist:
+
+        # except SocialAccount.DoesNotExist:
     # 	# User는 있는데 SocialAccount가 없을 때 (=일반회원으로 가입된 이메일일때)
     #     return JsonResponse({'err_msg': 'email exists but not social user'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -131,6 +136,7 @@ class GoogleLogin(SocialLoginView):
 
 KAKAO_CALLBACK_URI = BASE_URL + 'api/accounts/kakao/callback/'
 
+
 def kakao_login(request):
     rest_api_key = os.getenv("KAKAO_REST_API_KEY")
     return redirect(
@@ -142,7 +148,7 @@ def kakao_callback(request):
     rest_api_key = os.getenv("KAKAO_REST_API_KEY")
     code = request.GET.get("code")
     redirect_uri = KAKAO_CALLBACK_URI
-    
+
     # Access Token Request
     token_req = requests.get(
         f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={rest_api_key}&redirect_uri={redirect_uri}&code={code}")
@@ -151,7 +157,7 @@ def kakao_callback(request):
     if error is not None:
         raise JSONDecodeError(error)
     access_token = token_req_json.get("access_token")
-    
+
     # Email Request
     profile_request = requests.get(
         "https://kapi.kakao.com/v2/user/me", headers={"Authorization": f"Bearer {access_token}"})
@@ -189,11 +195,11 @@ def kakao_callback(request):
 
         if accept_status != 200:
             return JsonResponse({'err_msg': 'failed to signin'}, status=accept_status)
-        
+
         accept_json = accept.json()
         accept_json.pop('user', None)
         return JsonResponse(accept_json)
-    
+
     except User.DoesNotExist:
         # 기존에 가입된 유저가 없으면 새로 가입
         data = {'access_token': access_token, 'code': code}
@@ -222,7 +228,7 @@ class KakaoLogin(SocialLoginView):
     client_class = OAuth2Client
     callback_url = KAKAO_CALLBACK_URI
 
-    
+
 @api_view(['GET'])
 def profile(request, user_pk):
     user = get_object_or_404(get_user_model(), pk=user_pk)
@@ -245,17 +251,18 @@ def save_info_by_group(request, user_pk):
         serializer = ClinicSerializer(data=request.data)
     else:
         serializer = GeneralUserSerializer(data=request.data)
-    
+
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=user)
         return Response(serializer.data)
-    
+
+
 @api_view(['POST'])
 def follow(request, clinic_pk):
     clinic = get_object_or_404(Clinic, pk=clinic_pk)
     follower = get_object_or_404(GeneralUser, user=request.user)
 
-    if clinic.user != request.user:    
+    if clinic.user != request.user:
         if follower.following_clinics.filter(pk=clinic.pk).exists():
             follower.following_clinics.remove(clinic)
         else:

@@ -237,7 +237,6 @@ export default ReviewForm;
 
 export const action = async ({ request, params }) => {
   const method = request.method;
-  console.log("method", method);
   const data = await request.formData();
 
   const reviewData = {
