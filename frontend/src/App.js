@@ -24,7 +24,9 @@ import ReviewRootLayout from "./pages/layout/ReviewRootLayout";
 import ArticleRootLayout from "./pages/layout/ArticleRootLayout";
 import { tokenLoader } from "./util/auth";
 import { action as logoutAction } from "./pages/Logout";
-import UserProfilePage from "./pages/UserProfilePage";
+import UserProfilePage, {
+  loader as userProfileLoader,
+} from "./pages/UserProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +37,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "user/:name", element: <UserProfilePage /> },
+      {
+        path: "user/:userId",
+        loader: userProfileLoader,
+        element: <UserProfilePage />,
+      },
       {
         path: "clinics",
         element: <ClinicRootLayout />,

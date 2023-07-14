@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Form, Link, NavLink, useRouteLoaderData } from "react-router-dom";
+import { getUserId } from "../../util/auth";
 
 const NavBar = () => {
   const token = useRouteLoaderData("root");
-  const dummyUserName = 'foo';
+  const userId = getUserId();
 
   return (
     <header>
@@ -25,7 +26,7 @@ const NavBar = () => {
           {token && (
             <>
               <li>
-                <NavLink to={`/user/${dummyUserName}`}>프로필</NavLink>
+                <NavLink to={`/user/${userId}`}>프로필</NavLink>
               </li>
               <li>
                 <Form method="post" action="/logout">
