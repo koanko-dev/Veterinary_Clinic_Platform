@@ -23,19 +23,19 @@ def create_review_or_list(request):
 
         if review_serializer.is_valid(raise_exception=True):
             review_serializer.save(clinic=clinic, user=request.user)
-            
+
             clinic_reviews = Review.objects.filter(clinic=clinic)
-            clinic.rating = sum(d.rating for d in clinic_reviews) / len(clinic_reviews)
+            clinic.rating = sum(
+                d.rating for d in clinic_reviews) / len(clinic_reviews)
             clinic.save()
             return Response(review_serializer.data, status=status.HTTP_201_CREATED)
 
-
     if request.method == 'GET':
         return reviews()
-    
+
     elif request.method == 'POST':
         return create_review()
-    
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def detail_update_delete_review(request, review_pk):
@@ -44,7 +44,7 @@ def detail_update_delete_review(request, review_pk):
     def review_detail():
         serializer = ReviewSerializer(review)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def update_review():
         if review.user == request.user:
             serializer = ReviewSerializer(instance=review, data=request.data)
@@ -53,7 +53,8 @@ def detail_update_delete_review(request, review_pk):
 
                 clinic = get_object_or_404(Clinic, pk=review.clinic.id)
                 clinic_reviews = Review.objects.filter(clinic=clinic)
-                clinic.rating = sum(d.rating for d in clinic_reviews) / len(clinic_reviews)
+                clinic.rating = sum(
+                    d.rating for d in clinic_reviews) / len(clinic_reviews)
                 clinic.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -63,10 +64,16 @@ def detail_update_delete_review(request, review_pk):
 
             clinic = get_object_or_404(Clinic, pk=review.clinic.id)
             clinic_reviews = Review.objects.filter(clinic=clinic)
-            clinic.rating = sum(d.rating for d in clinic_reviews) / len(clinic_reviews)
-            clinic.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
 
+            if len(clinic_reviews) > 0:
+                clinic.rating = sum(
+                    d.rating for d in clinic_reviews) / len(clinic_reviews)
+            else:
+                clinic.rating = 0
+
+            clinic.save()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
     if request.method == 'GET':
         return review_detail()
@@ -76,7 +83,7 @@ def detail_update_delete_review(request, review_pk):
 
     elif request.method == 'DELETE':
         return delete_review()
-    
+
 
 @api_view(['GET'])
 def reviews_by_clinic(request, clinic_pk):

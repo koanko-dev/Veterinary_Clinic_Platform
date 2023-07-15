@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import { tokenLoader, checkAuthLoader } from "./util/auth";
 import AuthPage, { action as authAction } from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import ReviewListPage, {
@@ -23,7 +24,6 @@ import ErrorPage from "./pages/ErrorPage";
 import ClinicRootLayout from "./pages/layout/ClinicRootLayout";
 import ReviewRootLayout from "./pages/layout/ReviewRootLayout";
 import ArticleRootLayout from "./pages/layout/ArticleRootLayout";
-import { tokenLoader } from "./util/auth";
 import { action as logoutAction } from "./pages/Logout";
 import UserProfilePage, {
   loader as userProfileLoader,
@@ -91,13 +91,15 @@ const router = createBrowserRouter([
                 path: "edit",
                 element: <EditReviewPage />,
                 action: manipulateReviewAction,
+                loader: checkAuthLoader,
               },
             ],
           },
           {
-            path: "new",
+            path: "new/:cnum",
             element: <NewReviewPage />,
             action: manipulateReviewAction,
+            loader: checkAuthLoader,
           },
         ],
       },

@@ -3,6 +3,7 @@ import { useRouteLoaderData, redirect } from "react-router-dom";
 
 import axios from "../axios-post";
 import ReviewDetail from "../components/review/ReviewDetail";
+import { getAuthToken } from "../util/auth";
 
 const ReviewDetailPage = () => {
   const { data } = useRouteLoaderData("review-detail");
@@ -25,16 +26,19 @@ export const loader = async ({ params }) => {
 
 export const deleteReviewAction = async ({ params, request }) => {
   const reviewId = params.rnum;
-  const dummyToken = "adsjfiajoesifaw";
+  const token = getAuthToken();
 
   if (request.method === "DELETE") {
     try {
       await axios.delete(`reviews/${reviewId}/`, {
-        headers: `Token ${dummyToken}`,
+        headers: {
+          Authorization: `Token ${token}`,
+        },
       });
       return redirect("/reviews");
     } catch (err) {
       console.log("err", err);
+      return response
     }
   }
 };

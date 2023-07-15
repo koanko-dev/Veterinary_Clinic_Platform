@@ -9,6 +9,7 @@ import {
   clinicCategories,
 } from "../../lib/resources/resources";
 import Input from "../UI/Input";
+import { getAuthToken } from "../../util/auth";
 
 const isNotEmpty = (value) => value.trim() !== "";
 const isAlwaysTrue = (value) => true;
@@ -102,7 +103,7 @@ const ReviewForm = ({ method, review }) => {
     setDefaultClinicCategoryValueHandler(review ? review.clinic_category : "");
     setDefaultPriceValueHandler(review ? review.price : "");
     setDefaultContentValueHandler(review ? review.content : "");
-    setDefaultRatingValueHandler(review ? review.rating : "")
+    setDefaultRatingValueHandler(review ? review.rating : "");
   }, []);
 
   let formIsValid = false;
@@ -240,39 +241,46 @@ export const action = async ({ request, params }) => {
   const data = await request.formData();
 
   const reviewData = {
-    clinic_id: 1,
+    clinic_id: +params.cnum,
     clinic_area: data.get("clinic_area"),
     title: data.get("title"),
-    img: data.get("img"),
+    // img: data.get("img"),
     pet_species: data.get("pet_species"),
     clinic_category: data.get("clinic_category"),
-    price: data.get("price"),
+    price: +data.get("price"),
     content: data.get("content"),
-    rating: data.get("rating"),
+    rating: +data.get("rating"),
   };
 
   const token = getAuthToken();
 
   if (method === "PUT") {
+    // Edit review
     const reviewId = params.rnum;
+
     try {
-      const response = await axios.put(`reviews/${reviewId}/`, {
-        data: reviewData,
-        headers: `Token ${token}`,
+      await axios.put(`reviews/${reviewId}/`, reviewData, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
       });
-      redirect("/reviews");
+      return redirect("/reviews");
     } catch (err) {
       console.log("err", err);
+      return response;
     }
   } else {
+    // New review
     try {
-      const response = await axios.put(`reviews/`, {
-        data: reviewData,
-        headers: `Token ${token}`,
+      await axios.post(`reviews/`, reviewData, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
       });
-      redirect("/reviews");
+      return redirect("/reviews");
     } catch (err) {
       console.log("err", err);
+      return response;
     }
   }
 };
