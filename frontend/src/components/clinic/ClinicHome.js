@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 import axios from "../../axios-post";
-import { getAuthToken, getUserId } from "../../util/auth";
-import { Link, useLoaderData } from "react-router-dom";
+import { getUserId } from "../../util/auth";
+import { Link, useLoaderData, useRouteLoaderData } from "react-router-dom";
 
 const ClinicHome = () => {
   const myId = getUserId();
   const { data } = useLoaderData();
+  const token = useRouteLoaderData('root');
 
   const [isFollowing, setIsFollowing] = useState(false);
   const [followerNum, setFollowerNum] = useState(null);
@@ -23,7 +24,6 @@ const ClinicHome = () => {
     const clinicId = data.id;
 
     try {
-      const token = getAuthToken();
       await axios.post(
         `accounts/follow/${clinicId}/`,
         {},
