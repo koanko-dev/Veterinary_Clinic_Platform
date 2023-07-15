@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 import axios from "../../axios-post";
-import { getUserId } from "../../util/auth";
+import { getGroup, getUserId } from "../../util/auth";
 import { Link, useLoaderData, useRouteLoaderData } from "react-router-dom";
 
 const ClinicHome = () => {
   const myId = getUserId();
   const { data } = useLoaderData();
-  const token = useRouteLoaderData('root');
+  const token = useRouteLoaderData("root");
+  const group = getGroup();
 
   const [isFollowing, setIsFollowing] = useState(false);
   const [followerNum, setFollowerNum] = useState(null);
@@ -78,7 +79,9 @@ const ClinicHome = () => {
 
       <section>
         <h3>병원 리뷰</h3>
-        <Link to={`/reviews/new/${data.id}`}>리뷰 작성하기</Link>
+        {group === "general" && (
+          <Link to={`/reviews/new/${data.id}`}>리뷰 작성하기</Link>
+        )}
         <div>
           {data.reviews.length > 0 &&
             data.reviews.map((review) => {

@@ -1,15 +1,17 @@
 import React from "react";
 import Modal from "../UI/Modal";
 import { Link, useSubmit } from "react-router-dom";
+import { getUserId } from "../../util/auth";
 
 const ReviewModal = ({ onClose, review }) => {
   const submit = useSubmit();
+  const userId = getUserId();
 
   const deleteReviewHandler = () => {
     const proceed = window.confirm("Are you sure?");
 
     if (proceed) {
-      submit(null, { method: "delete", action: `/reviews/${review.id}?index`  });
+      submit(null, { method: "delete", action: `/reviews/${review.id}?index` });
     }
   };
 
@@ -20,8 +22,12 @@ const ReviewModal = ({ onClose, review }) => {
       <p>{review.rating}</p>
       <p>{review.price}</p>
       <p>{review.content}</p>
-      <Link to={`/reviews/${review.id}/edit`}>수정</Link>
-      <button onClick={deleteReviewHandler}>삭제</button>
+      {review.user.id === userId && (
+        <>
+          <Link to={`/reviews/${review.id}/edit`}>수정</Link>
+          <button onClick={deleteReviewHandler}>삭제</button>
+        </>
+      )}
     </Modal>
   );
 };
