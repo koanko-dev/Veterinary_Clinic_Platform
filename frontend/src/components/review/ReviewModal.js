@@ -17,6 +17,8 @@ const ReviewModal = ({ onClose, review }) => {
     <Modal onClose={onClose}>
       ReviewModal
       <p>{review.title}</p>
+      <p>{review.rating}</p>
+      <p>{review.price}</p>
       <p>{review.content}</p>
       <Link to={`/reviews/${review.id}/edit`}>수정</Link>
       <button onClick={deleteReviewHandler}>삭제</button>

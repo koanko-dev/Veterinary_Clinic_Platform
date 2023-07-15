@@ -8,7 +8,7 @@ const EditReviewPage = () => {
   return (
     <>
       <h2>리뷰 수정</h2>
-      <ReviewForm method="delete" review={data} />
+      <ReviewForm method="put" review={data} />
     </>
   );
 };
