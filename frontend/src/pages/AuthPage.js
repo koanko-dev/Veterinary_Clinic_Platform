@@ -42,9 +42,17 @@ export const action = async ({ request }) => {
         },
       });
       const userId = userResponse.data.pk;
+      
+      const profileResponse = await axios.get(`accounts/profile/${userId}`);
+
+      let group = 'clinic';
+      if (profileResponse.data.pet_name) {
+        group = 'general'
+      }
 
       localStorage.setItem("token", token);
       localStorage.setItem("userId", userId);
+      localStorage.setItem("group", group);
 
       return redirect("/");
     } catch (err) {
@@ -94,6 +102,7 @@ export const action = async ({ request }) => {
         };
 
         groupResponse = await axios.post(`accounts/groups/${userId}/`, groupData);
+        localStorage.setItem("group", "clinic");
       } else {
         // Save General User Info
         const groupData = {
@@ -103,6 +112,7 @@ export const action = async ({ request }) => {
         };
 
         groupResponse = await axios.post(`accounts/groups/${userId}/`, groupData);
+        localStorage.setItem("group", "general");
       }
       return redirect("/");
     } catch (err) {

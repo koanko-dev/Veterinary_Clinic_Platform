@@ -10,6 +10,11 @@ export const getUserId = () => {
   return userId;
 };
 
+export const getGroup = () => {
+  const group = localStorage.getItem("group");
+  return group;
+};
+
 export const tokenLoader = () => {
   return getAuthToken();
 };
