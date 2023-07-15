@@ -30,6 +30,7 @@ import UserProfilePage, {
 } from "./pages/UserProfilePage";
 import ClinicListPage, {
   loader as clinicListLoader,
+  action as filterClinicAction,
 } from "./pages/ClinicListPage";
 import ClinicHome, {
   loader as clinicDetailLoader,
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
             index: true,
             element: <ClinicListPage />,
             loader: clinicListLoader,
+            action: filterClinicAction,
           },
           {
             path: ":name",
