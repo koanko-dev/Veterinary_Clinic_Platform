@@ -7,6 +7,7 @@ import AuthPage, { action as authAction } from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import ReviewListPage, {
   loader as reviewsLoader,
+  action as filterReviewsAction,
 } from "./pages/ReviewListPage";
 import ReviewDetailPage, {
   loader as reviewDetailLoader,
@@ -72,6 +73,7 @@ const router = createBrowserRouter([
             index: true,
             element: <ReviewListPage />,
             loader: reviewsLoader,
+            action: filterReviewsAction,
           },
           {
             path: ":rnum",
