@@ -1,74 +1,44 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
+import { redirect, useRouteLoaderData } from "react-router-dom";
 
 import axios from "../axios-post";
+import ArticleDetail from "../components/article/ArticleDetail";
+import { getAuthToken } from "../util/auth";
 
 const ArticleDetailPage = () => {
-  const params = useParams();
-  const articleId = params.anum;
+  const { data } = useRouteLoaderData("article-detail");
 
-  const [article, setArticle] = useState({
-    title: "",
-    category: "",
-    created_at: "",
-    clinicName: "",
-    img: "",
-    content: "",
-    comments: [],
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const fetchArticleHandler = useCallback(async () => {
-    setIsLoading(true);
-
-    try {
-      const res = await axios.get(`articles/${articleId}`);
-      setArticle({
-        title: res.data.title,
-        category: res.data.category,
-        created_at: res.data.created_at,
-        clinicName: res.data.user.clinic_info[0].clinic_name,
-        img: res.data.img,
-        content: res.data.content,
-        comments: res.data.comments,
-      });
-    } catch (err) {
-      setError(err.message);
-    }
-
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    fetchArticleHandler();
-  }, [fetchArticleHandler]);
-
-  let content = article;
-
-  if (article) {
-    content = (
-      <>
-        <h2>{article.title}</h2>
-        <p>{article.category}</p>
-        <p>{article.created_at}</p>
-        <p>{article.clinicName}</p>
-        <p>{article.img}</p>
-        <p>{article.content}</p>
-        <p>{article.comments}</p>
-      </>
-    );
-  }
-
-  if (error) {
-    content = <p>{error}</p>;
-  }
-
-  if (isLoading) {
-    content = <p>Loading...</p>;
-  }
-
-  return <div>{content}</div>;
+  return <ArticleDetail article={data} />;
 };
 
 export default ArticleDetailPage;
+
+export const loader = async ({ params }) => {
+  const articleId = params.anum;
+
+  try {
+    const response = await axios.get(`articles/${articleId}/`);
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const action = async ({ params, request }) => {
+  const articleId = params.anum;
+  const token = getAuthToken();
+
+  if (request.method === "DELETE") {
+    try {
+      await axios.delete(`articles/${articleId}/`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+      return redirect("/articles");
+    } catch (err) {
+      console.log("err", err);
+      return response;
+    }
+  }
+};

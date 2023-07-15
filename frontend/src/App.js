@@ -18,7 +18,10 @@ import NewReviewPage from "./pages/NewReviewPage";
 import ArticleListPage, {
   action as filterArticlesAction,
 } from "./pages/ArticleListPage";
-import ArticleDetailPage from "./pages/ArticleDetailPage";
+import ArticleDetailPage, {
+  loader as articleDetailLoader,
+  action as deleteArticleAction,
+} from "./pages/ArticleDetailPage";
 import RootLayout from "./pages/layout/RootLayout";
 import ErrorPage from "./pages/ErrorPage";
 import ClinicRootLayout from "./pages/layout/ClinicRootLayout";
@@ -35,6 +38,9 @@ import ClinicListPage, {
 import ClinicHome, {
   loader as clinicDetailLoader,
 } from "./components/clinic/ClinicHome";
+import EditArticlePage from "./pages/EditArticlePage";
+import { action as manipulateArticleAction } from "./components/article/ArticleForm";
+import NewArticlePage from "./pages/NewArticlePage";
 
 const router = createBrowserRouter([
   {
@@ -115,12 +121,27 @@ const router = createBrowserRouter([
           {
             path: ":anum",
             id: "article-detail",
+            loader: articleDetailLoader,
             children: [
-              { index: true, element: <ArticleDetailPage /> },
-              { path: "edit", element: <p>article editor</p> },
+              {
+                index: true,
+                element: <ArticleDetailPage />,
+                action: deleteArticleAction,
+              },
+              {
+                path: "edit",
+                element: <EditArticlePage />,
+                action: manipulateArticleAction,
+                loader: checkAuthLoader,
+              },
             ],
           },
-          { path: "new", element: <p>article editor</p> },
+          {
+            path: "new",
+            element: <NewArticlePage />,
+            action: manipulateArticleAction,
+            loader: checkAuthLoader,
+          },
         ],
       },
       {
