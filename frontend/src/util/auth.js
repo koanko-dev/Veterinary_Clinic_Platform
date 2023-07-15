@@ -7,7 +7,7 @@ export const getAuthToken = () => {
 
 export const getUserId = () => {
   const userId = localStorage.getItem("userId");
-  return userId;
+  return +userId;
 };
 
 export const getGroup = () => {

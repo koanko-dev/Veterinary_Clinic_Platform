@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "../UI/Modal";
 import { Link, useSubmit } from "react-router-dom";
 import { getUserId } from "../../util/auth";
@@ -6,6 +6,12 @@ import { getUserId } from "../../util/auth";
 const ReviewModal = ({ onClose, review }) => {
   const submit = useSubmit();
   const userId = getUserId();
+
+  useEffect(() => {
+    return () => {
+      onClose();
+    };
+  }, []);
 
   const deleteReviewHandler = () => {
     const proceed = window.confirm("Are you sure?");
