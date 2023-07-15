@@ -48,7 +48,7 @@ def detail_update_delete_article(request, article_pk):
 def create_article_or_list(request):
 
     def articles():
-        articles = Article.objects.all()
+        articles = Article.objects.all().order_by('-pk')
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
 

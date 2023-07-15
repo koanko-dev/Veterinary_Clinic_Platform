@@ -10,7 +10,7 @@ from accounts.serializers import ClinicSerializer
 
 @api_view(['GET'])
 def clinics(request):
-    clinics = Clinic.objects.all()
+    clinics = Clinic.objects.all().order_by('-pk')
     serializer = ClinicSerializer(clinics, many=True)
     return Response(serializer.data)
 

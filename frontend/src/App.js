@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
-// import { BrowserRouter, Routes, Route, Link, Redirect } from "react-router-dom";
+import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import AuthPage, { action as authAction } from "./pages/AuthPage";
@@ -16,7 +14,9 @@ import ReviewDetailPage, {
 import { action as manipulateReviewAction } from "./components/review/ReviewForm";
 import EditReviewPage from "./pages/EditReviewPage";
 import NewReviewPage from "./pages/NewReviewPage";
-import ArticleListPage from "./pages/ArticleListPage";
+import ArticleListPage, {
+  action as filterArticlesAction,
+} from "./pages/ArticleListPage";
 import ArticleDetailPage from "./pages/ArticleDetailPage";
 import RootLayout from "./pages/layout/RootLayout";
 import ErrorPage from "./pages/ErrorPage";
@@ -30,7 +30,7 @@ import UserProfilePage, {
 } from "./pages/UserProfilePage";
 import ClinicListPage, {
   loader as clinicListLoader,
-  action as filterClinicAction,
+  action as filterClinicsAction,
 } from "./pages/ClinicListPage";
 import ClinicHome, {
   loader as clinicDetailLoader,
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
             index: true,
             element: <ClinicListPage />,
             loader: clinicListLoader,
-            action: filterClinicAction,
+            action: filterClinicsAction,
           },
           {
             path: ":name",
@@ -105,7 +105,11 @@ const router = createBrowserRouter([
         path: "articles",
         element: <ArticleRootLayout />,
         children: [
-          { index: true, element: <ArticleListPage /> },
+          {
+            index: true,
+            element: <ArticleListPage />,
+            action: filterArticlesAction,
+          },
           {
             path: ":anum",
             id: "article-detail",

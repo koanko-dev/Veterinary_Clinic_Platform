@@ -13,7 +13,7 @@ from .serializers import ReviewSerializer
 @api_view(['GET', 'POST'])
 def create_review_or_list(request):
     def reviews():
-        reviews = Review.objects.all()
+        reviews = Review.objects.all().order_by('-pk')
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
 

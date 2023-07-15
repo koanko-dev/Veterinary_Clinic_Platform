@@ -1,15 +1,20 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useCallback } from "react";
+import { Form, useActionData, useNavigate, useNavigation } from "react-router-dom";
 import axios from "../axios-post";
 
 import ArticleCard from "../components/article/ArticleCard";
+import { petSpecies } from "../lib/resources/resources";
 
 const ArticleListPage = (props) => {
   const navigate = useNavigate();
+  const navigation = useNavigation();
+  const actionData = useActionData();
 
   const [articleList, setArticleList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const isSubmitting = navigation.state === "submitting";
 
   const fetchArticleListHandler = useCallback(async () => {
     setIsLoading(true);
@@ -27,6 +32,12 @@ const ArticleListPage = (props) => {
   useEffect(() => {
     fetchArticleListHandler();
   }, [fetchArticleListHandler]);
+
+  useEffect(() => {
+    if (actionData) {
+      setArticleList(actionData.data);
+    }
+  }, [actionData]);
 
   const showArticleDetailHandler = (articleId) => {
     navigate(`${articleId}`);
@@ -62,9 +73,55 @@ const ArticleListPage = (props) => {
 
   return (
     <div>
-      <ul>{content}</ul>
+      <Form method="post">
+        <select name="category">
+          <option value="">-------</option>
+          {petSpecies.map((option) => {
+            return (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            );
+          })}
+        </select>
+        <select name="ordering">
+          <option value="default">최신순으로 보기</option>
+          <option value="created_at_ascending">과거순으로 보기</option>
+        </select>
+
+        <button disabled={isSubmitting}>
+          {isSubmitting ? "필터 적용중..." : "필터 적용"}
+        </button>
+      </Form>
+
+      <div>
+        <ul>{content}</ul>
+      </div>
     </div>
   );
 };
 
 export default ArticleListPage;
+
+export const action = async ({ request }) => {
+  const data = await request.formData();
+
+  const category = data.get("category");
+  const ordering = data.get("ordering");
+
+  let urlParams = "?";
+
+  if (category) {
+    urlParams += `category=${category}&`;
+  }
+  if (ordering) {
+    urlParams += `ordering=${ordering}&`;
+  }
+
+  try {
+    const filteredRes = await axios.get(`articles/search/${urlParams}`);
+    return filteredRes;
+  } catch (err) {
+    console.log("err", err);
+  }
+};
