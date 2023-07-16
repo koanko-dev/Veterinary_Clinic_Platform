@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { tokenLoader, checkAuthLoader } from "./util/auth";
 import AuthPage, { action as authAction } from "./pages/AuthPage";
-import HomePage from "./pages/HomePage";
+import HomePage, { loader as homeLoader } from "./pages/HomePage";
 import ReviewListPage, {
   loader as reviewsLoader,
   action as filterReviewsAction,
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <HomePage />, loader: homeLoader },
       {
         path: "user/:userId",
         loader: userProfileLoader,
