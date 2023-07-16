@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet, useNavigation } from "react-router-dom";
+import styled from "styled-components";
 
 import NavBar from "../../components/common/NavBar";
 
@@ -9,12 +10,16 @@ const RootLayout = () => {
   return (
     <>
       <NavBar />
-      <main>
+      <Main>
         {/* {navigation.state === 'loading' && <p>Loading...</p>} */}
         <Outlet />
-      </main>
+      </Main>
     </>
   );
 };
 
 export default RootLayout;
+
+const Main = styled.main`
+  margin-top: 7rem;
+`;

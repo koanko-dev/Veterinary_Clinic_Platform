@@ -4,12 +4,20 @@ import { Await, defer, useLoaderData } from "react-router-dom";
 import axios from "../axios-post";
 import ReviewList from "../components/review/ReviewList";
 import ClinicList from "../components/clinic/ClinicList";
+import HomeFirstSection from "../components/home/HomeFirstSection";
+import AboutSection from "../components/home/AboutSection";
+import ServicesSection from "../components/home/ServicesSection";
+import TopRatingClinic from "../components/home/TopRatingClinic";
 
 const HomePage = () => {
   const { topRatingClinics, recentlyCreatedReviews } = useLoaderData();
 
   return (
     <>
+      <HomeFirstSection />
+      <AboutSection />
+      <ServicesSection />
+      <TopRatingClinic />
       <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
         <Await resolve={topRatingClinics}>
           {(loadedClinics) => <ClinicList clinics={loadedClinics} />}

@@ -1,12 +1,18 @@
 import React from "react";
 
+import styled from "styled-components";
+
 const PageContent = ({ title, children }) => {
   return (
-    <div>
+    <PageContentBox>
       <h1>{title}</h1>
       {children}
-    </div>
+    </PageContentBox>
   );
 };
 
 export default PageContent;
+
+const PageContentBox = styled.div`
+  margin-top: 7rem;
+`;
