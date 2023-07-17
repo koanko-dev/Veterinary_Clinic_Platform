@@ -9,6 +9,8 @@ const Input = ({
   type,
   accept,
   value,
+  min,
+  max,
   onChange,
   onBlur,
   hasError,
@@ -71,7 +73,7 @@ const Input = ({
       <InputTag
         name={name}
         type="number"
-        min="1" max="5"
+        min={min} max={max}
         value={value}
         inValid={hasError}
         onChange={onChange}

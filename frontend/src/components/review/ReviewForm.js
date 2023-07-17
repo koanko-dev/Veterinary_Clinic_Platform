@@ -217,6 +217,8 @@ const ReviewForm = ({ method, review }) => {
       <Input
         label={"평점"}
         name={"rating"}
+        min={1}
+        max={5}
         type={"number"}
         value={ratingValue}
         onChange={ratingChangeHandler}

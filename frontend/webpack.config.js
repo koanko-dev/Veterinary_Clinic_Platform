@@ -45,4 +45,9 @@ module.exports = {
       "process.env.NODE_ENV": JSON.stringify("development"),
     }),
   ],
+  resolve: {
+    alias: {
+      "@mui/styled-engine": "@mui/styled-engine-sc",
+    },
+  },
 };

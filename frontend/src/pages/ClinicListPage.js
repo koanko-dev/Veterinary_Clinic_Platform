@@ -31,15 +31,7 @@ const ClinicListPage = () => {
 
   if (clinicList.length > 0) {
     content = clinicList.map((clinic) => {
-      return (
-        <ClinicCard
-          key={clinic.id}
-          clinicName={clinic.clinic_name}
-          rating={clinic.rating}
-          specializedField={clinic.specialized_field}
-          specializedSpecies={clinic.specialized_species}
-        />
-      );
+      return <ClinicCard key={clinic.id} clinic={clinic} />;
     });
   }
 
@@ -83,9 +75,9 @@ const ClinicListPage = () => {
           </ButtonBox>
         </Form>
 
-        <div>
+        <ContentBox>
           <ul>{content}</ul>
-        </div>
+        </ContentBox>
       </Wrapper>
     </ClinicListPageBox>
   );
@@ -144,4 +136,8 @@ const ButtonBox = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 0.5rem;
+`;
+
+const ContentBox = styled.section`
+  margin-top: 4rem;
 `;
