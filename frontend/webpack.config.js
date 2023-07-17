@@ -18,17 +18,18 @@ module.exports = {
       },
       {
         test: /\.(jpg|png|svg)$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         options: {
           limit: 25000,
         },
       },
       {
-          test: /\.(jpg|png|svg)$/,
-          loader: 'file-loader',
-          options: {
-            name: '[path][name].[hash].[ext]',
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: "file-loader",
           },
+        ],
       },
     ],
   },
@@ -41,7 +42,7 @@ module.exports = {
       //   // This has effect on the react lib size
       //   NODE_ENV: JSON.stringify("production"),
       // },
-      'process.env.NODE_ENV': JSON.stringify('development')
+      "process.env.NODE_ENV": JSON.stringify("development"),
     }),
   ],
 };

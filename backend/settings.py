@@ -193,3 +193,5 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 # URL used to access the media
 MEDIA_URL = '/media/'
+
+STATIC_URL = "static/"

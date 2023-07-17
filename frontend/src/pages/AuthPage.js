@@ -42,12 +42,12 @@ export const action = async ({ request }) => {
         },
       });
       const userId = userResponse.data.pk;
-      
+
       const profileResponse = await axios.get(`accounts/profile/${userId}`);
 
-      let group = 'clinic';
+      let group = "clinic";
       if (profileResponse.data.pet_name) {
-        group = 'general'
+        group = "general";
       }
 
       localStorage.setItem("token", token);
@@ -102,6 +102,21 @@ export const action = async ({ request }) => {
         };
 
         groupResponse = await axios.post(`accounts/groups/${userId}/`, groupData);
+        // if (data.get("img")) {
+        //   groupData.img = data.get("img");
+        //   console.log("added clinic main img!", groupData);
+        // }
+
+        // groupResponse = await axios.post(
+        //   `accounts/groups/${userId}/`,
+        //   groupData,
+        //   {
+        //     headers: {
+        //       "Content-Type": "multipart/form-data",
+        //     },
+        //   }
+        // );
+
         localStorage.setItem("group", "clinic");
       } else {
         // Save General User Info
@@ -111,7 +126,10 @@ export const action = async ({ request }) => {
           address_area: data.get("address_area"),
         };
 
-        groupResponse = await axios.post(`accounts/groups/${userId}/`, groupData);
+        groupResponse = await axios.post(
+          `accounts/groups/${userId}/`,
+          groupData
+        );
         localStorage.setItem("group", "general");
       }
       return redirect("/");

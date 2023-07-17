@@ -4,6 +4,7 @@ const Input = ({
   label,
   name,
   type,
+  accept,
   value,
   onChange,
   onBlur,
@@ -63,6 +64,16 @@ const Input = ({
         onChange={onChange}
         onBlur={onBlur}
       />
+    );
+  } else if (type === "file" && accept) {
+    inputElement = (
+      <input
+        name={name}
+        type="file"
+        accept={accept}
+        onChange={onChange}
+        onBlur={onBlur}
+      ></input>
     );
   }
 

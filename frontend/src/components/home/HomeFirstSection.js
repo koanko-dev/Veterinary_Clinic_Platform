@@ -16,7 +16,7 @@ const HomeFirstSection = () => {
               <div>Veterinary</div>
               <div>Clinics in Seoul</div>
               <TitleTagImgBox>
-                <img src='' alt="title tag" />
+                <img src='/static/images/cat.png' alt="title tag" />
               </TitleTagImgBox>
             </Title>
             <Sub>

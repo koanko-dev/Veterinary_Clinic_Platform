@@ -9,12 +9,13 @@ import {
 } from "../../lib/resources/resources";
 
 const isNotEmpty = (value) => value.trim() !== "";
+const isAlwaysTrue = (value) => true;
 const isAddressArea = (value) => areas.includes(value);
 const isSpecializedField = (value) => clinicCategories.includes(value);
 const isSpecializedSpecies = (value) => petSpecies.includes(value);
 const emptyErrorMsg = "값을 입력해주세요.";
 
-const ClinicSignupForm = ({checkValidation}) => {
+const ClinicSignupForm = ({ checkValidation }) => {
   const {
     value: clinicNameValue,
     isValid: clinicNameIsValid,
@@ -69,6 +70,15 @@ const ClinicSignupForm = ({checkValidation}) => {
     reset: resetSpecializedSpecies,
   } = useInput(isSpecializedSpecies);
 
+  // const {
+  //   value: imgValue,
+  //   isValid: imgIsValid,
+  //   hasError: imgHasError,
+  //   fileValueChangeHandler: imgChangeHandler,
+  //   inputBlurHandler: imgBlurHandler,
+  //   reset: resetImg,
+  // } = useInput(isAlwaysTrue);
+
   if (
     clinicNameIsValid &&
     bioIsValid &&
@@ -76,6 +86,7 @@ const ClinicSignupForm = ({checkValidation}) => {
     addressAreaIsValid &&
     specializedFieldIsValid &&
     specializedSpeciesIsValid
+    // imgIsValid
   ) {
     checkValidation(true);
   }
@@ -102,6 +113,17 @@ const ClinicSignupForm = ({checkValidation}) => {
         hasError={bioHasError}
         errorMsg={emptyErrorMsg}
       />
+      {/* <Input
+        label={"클리닉 이미지"}
+        name={"img"}
+        type={"file"}
+        accept={"image/jpeg,image/png,image/gif"}
+        value={imgValue}
+        onChange={imgChangeHandler}
+        onBlur={imgBlurHandler}
+        hasError={imgHasError}
+        errorMsg={emptyErrorMsg}
+      /> */}
       <Input
         label={"주소"}
         name={"address"}

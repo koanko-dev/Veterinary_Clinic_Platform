@@ -34,6 +34,11 @@ const useInput = (validateValue) => {
     dispatch({ type: "INPUT", value: event.target.value });
   };
 
+  const fileValueChangeHandler = (event) => {
+    console.log("event.target.files[0]", event.target.files[0]);
+    dispatch({ type: "INPUT", value: event.target.files[0] });
+  };
+
   const inputBlurHandler = (event) => {
     dispatch({ type: "BLUR" });
   };
@@ -51,6 +56,7 @@ const useInput = (validateValue) => {
     isValid: valueIsValid,
     hasError,
     valueChangeHandler,
+    fileValueChangeHandler,
     inputBlurHandler,
     reset,
     setDefaultValueHandler,
