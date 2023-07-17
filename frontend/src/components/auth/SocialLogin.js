@@ -1,21 +1,28 @@
 import React from "react";
 
-import googleBtn from "../../assets/google_btn.png";
-import kakaoeBtn from "../../assets/kakao_btn.png";
 import axios from "../../axios-post";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+import { importImg } from "../../util/img";
 
 const SocialLogin = () => {
   return (
-    <div>
+    <SocialLoginBox>
       <a href="http://127.0.0.1:8000/api/accounts/google/login/">
-        <img src={googleBtn} alt="google login" />
+        <img src={importImg("google_btn.png")} alt="google login" />
       </a>
       <a href="http://127.0.0.1:8000/api/accounts/kakao/login/">
-        <img src={kakaoeBtn} alt="kakao login" />
+        <img src={importImg("kakao_btn.png")} alt="kakao login" />
       </a>
-    </div>
+    </SocialLoginBox>
   );
 };
 
 export default SocialLogin;
+
+const SocialLoginBox = styled.section`
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+`;

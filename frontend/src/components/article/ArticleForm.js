@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import { Form, redirect, useNavigate, useNavigation } from "react-router-dom";
 
 import axios from "../../axios-post";
+import styled from "styled-components";
+
 import useInput from "../../hooks/use-input";
 import { petSpecies } from "../../lib/resources/resources";
 import Input from "../UI/Input";
 import { getAuthToken } from "../../util/auth";
+import Button from "../UI/Button";
 
 const isNotEmpty = (value) => value.trim() !== "";
 const isCategory = (value) => petSpecies.includes(value);
@@ -99,14 +102,19 @@ const ArticleForm = ({ method, article }) => {
         errorMsg={valueErrorMsg}
       />
 
-      <div>
-        <button type="button" onClick={cancelHandler} disabled={isSubmitting}>
+      <ButtonBox>
+        <Button
+          theme="outlineBlack"
+          type="button"
+          onClick={cancelHandler}
+          disabled={isSubmitting}
+        >
           취소
-        </button>
-        <button disabled={!formIsValid | isSubmitting}>
+        </Button>
+        <Button theme="basic" disabled={!formIsValid | isSubmitting}>
           {isSubmitting ? "저장중..." : "저장"}
-        </button>
-      </div>
+        </Button>
+      </ButtonBox>
     </Form>
   );
 };
@@ -156,3 +164,8 @@ export const action = async ({ request, params }) => {
     }
   }
 };
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;

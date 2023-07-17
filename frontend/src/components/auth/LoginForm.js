@@ -3,6 +3,8 @@ import { Form, Link, useNavigation, useSearchParams } from "react-router-dom";
 
 import useInput from "../../hooks/use-input";
 import Input from "../UI/Input";
+import Button from "../UI/Button";
+import styled from "styled-components";
 
 const isEmail = (value) => value.includes("@");
 const isNotEmpty = (value) => value.trim() !== "";
@@ -78,16 +80,20 @@ const LoginForm = () => {
         hasError={passwordHasError}
         errorMsg={emptyErrorMsg}
       />
-      <div>
+      <ButtonBox>
         <Link to={`?mode=${isLogin ? "signup" : "login"}`}>
-          {isLogin ? "회원가입" : "로그인"}
+          <Button>{isLogin ? "회원가입" : "로그인"}</Button>
         </Link>
-        <button disabled={isSubmitting | !formIsValid}>
-          {isSubmitting ? "로그인중..." : "로그인"}
-        </button>
-      </div>
+        <Button theme={"basic"} disabled={isSubmitting | !formIsValid}>
+          {isSubmitting ? "로그인 중..." : "로그인"}
+        </Button>
+      </ButtonBox>
     </Form>
   );
 };
 
 export default LoginForm;
+
+const ButtonBox = styled.div`
+  margin-top: 2rem;
+`;

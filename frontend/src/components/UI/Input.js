@@ -71,6 +71,7 @@ const Input = ({
       <InputTag
         name={name}
         type="number"
+        min="1" max="5"
         value={value}
         inValid={hasError}
         onChange={onChange}
@@ -172,5 +173,11 @@ const InputDiv = styled.div`
     font-weight: 500;
     margin-bottom: 8px;
     text-transform: capitalize;
+  }
+
+  p {
+    color: rgba(255, 0, 0, 0.8);
+    margin-top: 3px;
+    font-size: 14px;
   }
 `;

@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Form, useActionData, useLoaderData } from "react-router-dom";
 
 import axios from "../axios-post";
+import styled from "styled-components";
+
 import ClinicCard from "../components/clinic/ClinicCard";
 import {
   areas,
   clinicCategories,
   petSpecies,
 } from "../lib/resources/resources";
+import Button from "../components/UI/Button";
+import Responsive from "../components/UI/Responsive";
 
 const ClinicListPage = () => {
   const { data } = useLoaderData();
@@ -39,53 +43,55 @@ const ClinicListPage = () => {
   }
 
   return (
-    <div>
-      <Form method="post">
-        <select name="address_area">
-          <option value="">-------</option>
-          {areas.map((option) => {
-            return (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            );
-          })}
-        </select>
-        <select name="specialized_species">
-          <option value="">-------</option>
-          {petSpecies.map((option) => {
-            return (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            );
-          })}
-        </select>
-        <select name="specialized_field">
-          <option value="">-------</option>
-          {clinicCategories.map((option) => {
-            return (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            );
-          })}
-        </select>
-        <select name="ordering">
-          <option value="default">최신순으로 보기</option>
-          <option value="rating_ascending">낮은별점순으로 보기</option>
-          <option value="rating_descending">높은별점순으로 보기</option>
-        </select>
+    <ClinicListPageBox>
+      <Wrapper>
+        <Form method="post">
+          <select name="address_area">
+            <option value="">-------</option>
+            {areas.map((option) => {
+              return (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              );
+            })}
+          </select>
+          <select name="specialized_species">
+            <option value="">-------</option>
+            {petSpecies.map((option) => {
+              return (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              );
+            })}
+          </select>
+          <select name="specialized_field">
+            <option value="">-------</option>
+            {clinicCategories.map((option) => {
+              return (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              );
+            })}
+          </select>
+          <select name="ordering">
+            <option value="default">최신순으로 보기</option>
+            <option value="rating_ascending">낮은별점순으로 보기</option>
+            <option value="rating_descending">높은별점순으로 보기</option>
+          </select>
 
-        <button disabled={isSubmitting}>
-          {isSubmitting ? "필터 적용중..." : "필터 적용"}
-        </button>
-      </Form>
+          <Button theme="point" disabled={isSubmitting}>
+            {isSubmitting ? "필터 적용중..." : "필터 적용"}
+          </Button>
+        </Form>
 
-      <div>
-        <ul>{content}</ul>
-      </div>
-    </div>
+        <div>
+          <ul>{content}</ul>
+        </div>
+      </Wrapper>
+    </ClinicListPageBox>
   );
 };
 
@@ -130,3 +136,10 @@ export const action = async ({ request }) => {
     console.log("err", err);
   }
 };
+
+const ClinicListPageBox = styled.section`
+  padding-top: 2rem;
+  padding-bottom: 12rem;
+`;
+
+const Wrapper = styled(Responsive)``;

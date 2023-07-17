@@ -5,7 +5,7 @@ import styled from "styled-components";
 const PageContent = ({ title, children }) => {
   return (
     <PageContentBox>
-      <h1>{title}</h1>
+      <h2>{title}</h2>
       {children}
     </PageContentBox>
   );

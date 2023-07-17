@@ -1,16 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
+import Responsive from "./Responsive";
 
 const Backdrop = (props) => {
-  return <BackdropBox onClick={props.onClose}/>;
+  return <BackdropBox onClick={props.onClose} />;
 };
 
 const ModalOverlay = (props) => {
   return (
-    <ModalOverlayBox>
-      <ModalOverlayContent>{props.children}</ModalOverlayContent>
-    </ModalOverlayBox>
+    <Wrapper>
+      <ModalOverlayBox>
+        <ModalOverlayContent>{props.children}</ModalOverlayContent>
+      </ModalOverlayBox>
+    </Wrapper>
   );
 };
 
@@ -19,7 +22,10 @@ const potalElement = document.getElementById("overlays");
 const Modal = (props) => {
   return (
     <>
-      {ReactDOM.createPortal(<Backdrop onClose={props.onClose}/>, potalElement)}
+      {ReactDOM.createPortal(
+        <Backdrop onClose={props.onClose} />,
+        potalElement
+      )}
       {ReactDOM.createPortal(
         <ModalOverlay>{props.children}</ModalOverlay>,
         potalElement
@@ -37,6 +43,8 @@ const BackdropBox = styled.div`
   z-index: 20;
   background-color: rgba(0, 0, 0, 0.75);
 `;
+
+const Wrapper = styled(Responsive)``;
 
 const ModalOverlayBox = styled.div`
   position: fixed;

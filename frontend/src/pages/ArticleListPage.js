@@ -1,9 +1,17 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Form, useActionData, useNavigate, useNavigation } from "react-router-dom";
+import {
+  Form,
+  useActionData,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
 import axios from "../axios-post";
+import styled from "styled-components";
 
 import ArticleCard from "../components/article/ArticleCard";
 import { petSpecies } from "../lib/resources/resources";
+import Button from "../components/UI/Button";
+import Responsive from "../components/UI/Responsive";
 
 const ArticleListPage = (props) => {
   const navigate = useNavigate();
@@ -72,32 +80,34 @@ const ArticleListPage = (props) => {
   }
 
   return (
-    <div>
-      <Form method="post">
-        <select name="category">
-          <option value="">-------</option>
-          {petSpecies.map((option) => {
-            return (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            );
-          })}
-        </select>
-        <select name="ordering">
-          <option value="default">최신순으로 보기</option>
-          <option value="created_at_ascending">과거순으로 보기</option>
-        </select>
+    <ArticleListPageBox>
+      <Wrapper>
+        <Form method="post">
+          <select name="category">
+            <option value="">-------</option>
+            {petSpecies.map((option) => {
+              return (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              );
+            })}
+          </select>
+          <select name="ordering">
+            <option value="default">최신순으로 보기</option>
+            <option value="created_at_ascending">과거순으로 보기</option>
+          </select>
 
-        <button disabled={isSubmitting}>
-          {isSubmitting ? "필터 적용중..." : "필터 적용"}
-        </button>
-      </Form>
+          <Button theme="point" disabled={isSubmitting}>
+            {isSubmitting ? "필터 적용중..." : "필터 적용"}
+          </Button>
+        </Form>
 
-      <div>
-        <ul>{content}</ul>
-      </div>
-    </div>
+        <div>
+          <ul>{content}</ul>
+        </div>
+      </Wrapper>
+    </ArticleListPageBox>
   );
 };
 
@@ -125,3 +135,10 @@ export const action = async ({ request }) => {
     console.log("err", err);
   }
 };
+
+const ArticleListPageBox = styled.section`
+  padding-top: 2rem;
+  padding-bottom: 12rem;
+`;
+
+const Wrapper = styled(Responsive)``;

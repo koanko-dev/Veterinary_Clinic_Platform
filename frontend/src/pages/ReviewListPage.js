@@ -6,6 +6,7 @@ import {
   useNavigation,
 } from "react-router-dom";
 import axios from "../axios-post";
+import styled from "styled-components";
 
 import ReviewCard from "../components/review/ReviewCard";
 import ReviewModal from "../components/review/ReviewModal";
@@ -15,6 +16,8 @@ import {
   clinicCategories,
   areas,
 } from "../lib/resources/resources";
+import Button from "../components/UI/Button";
+import Responsive from "../components/UI/Responsive";
 
 const ReviewListPage = () => {
   const { data } = useLoaderData();
@@ -56,62 +59,63 @@ const ReviewListPage = () => {
   }
 
   return (
-    <>
+    <ReviewListPageBox>
       {modalCtx.isShow && (
         <ReviewModal
           onClose={modalCtx.onCloseModal}
           review={reviewModalContent}
         />
       )}
+      <Wrapper>
+        <Form method="post">
+          <select name="pet_species">
+            <option value="">-------</option>
+            {petSpecies.map((option) => {
+              return (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              );
+            })}
+          </select>
+          <select name="clinic_category">
+            <option value="">-------</option>
+            {clinicCategories.map((option) => {
+              return (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              );
+            })}
+          </select>
+          <select name="clinic_area">
+            <option value="">-------</option>
+            {areas.map((option) => {
+              return (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              );
+            })}
+          </select>
+          <select name="ordering">
+            <option value="default">최신순으로 보기</option>
+            <option value="rating_ascending">낮은별점순으로 보기</option>
+            <option value="rating_descending">높은별점순으로 보기</option>
+            <option value="price_ascending">낮은가격순으로 보기</option>
+            <option value="price_descending">높은가격순으로 보기</option>
+          </select>
 
-      <Form method="post">
-        <select name="pet_species">
-          <option value="">-------</option>
-          {petSpecies.map((option) => {
-            return (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            );
-          })}
-        </select>
-        <select name="clinic_category">
-          <option value="">-------</option>
-          {clinicCategories.map((option) => {
-            return (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            );
-          })}
-        </select>
-        <select name="clinic_area">
-          <option value="">-------</option>
-          {areas.map((option) => {
-            return (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            );
-          })}
-        </select>
-        <select name="ordering">
-          <option value="default">최신순으로 보기</option>
-          <option value="rating_ascending">낮은별점순으로 보기</option>
-          <option value="rating_descending">높은별점순으로 보기</option>
-          <option value="price_ascending">낮은가격순으로 보기</option>
-          <option value="price_descending">높은가격순으로 보기</option>
-        </select>
+          <Button theme="point" disabled={isSubmitting}>
+            {isSubmitting ? "필터 적용중..." : "필터 적용"}
+          </Button>
+        </Form>
 
-        <button disabled={isSubmitting}>
-          {isSubmitting ? "필터 적용중..." : "필터 적용"}
-        </button>
-      </Form>
-
-      <div>
-        <ul>{content}</ul>
-      </div>
-    </>
+        <div>
+          <ul>{content}</ul>
+        </div>
+      </Wrapper>
+    </ReviewListPageBox>
   );
 };
 
@@ -156,3 +160,10 @@ export const action = async ({ request }) => {
     console.log("err", err);
   }
 };
+
+const ReviewListPageBox = styled.section`
+  padding-top: 2rem;
+  padding-bottom: 12rem;
+`;
+
+const Wrapper = styled(Responsive)``;

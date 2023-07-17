@@ -3,17 +3,9 @@ import React from "react";
 import styled from "styled-components";
 import palette from "../../lib/styles/palette";
 
-const btn = ({ children, ...rest }) => (
-  <BasicButton {...rest}>{children}</BasicButton>
-);
-const link = ({ children, ...rest }) => (
-  <LinkButton {...rest}>{children}</LinkButton>
-);
-
 const Button = ({ to, onClick, disabled, theme, size, type, children }) => {
-  const Element = to && !disabled ? link : btn;
   return (
-    <Element
+    <BasicButton
       href={to}
       onClick={onClick}
       disabled={disabled}
@@ -22,7 +14,7 @@ const Button = ({ to, onClick, disabled, theme, size, type, children }) => {
       type={type}
     >
       {children}
-    </Element>
+    </BasicButton>
   );
 };
 
@@ -33,7 +25,7 @@ const basic =
   ({ theme }) => {
     if (theme === "basic") {
       return `
-        color: white;
+        color: ${palette.gray[8]};
         background-color: ${palette.yellow[0]};
         &:hover {
             background-color: ${palette.yellow[1]};
@@ -84,14 +76,14 @@ const outlinePoint =
     return null;
   };
 
-const outlineWhite =
+const outlineBlack =
   () =>
   ({ theme }) => {
-    if (theme === "outlineWhite") {
+    if (theme === "outlineBlack") {
       return `
-        color: white;
+        color: ${palette.gray[7]};
         background-color: transparent;
-        border: 1px solid white;
+        border: 1px solid ${palette.gray[7]};
         `;
     }
     return null;
@@ -142,15 +134,12 @@ const navBtn =
   };
 
 const BasicButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 0.5rem 1.2rem;
   color: ${palette.gray[8]};
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 2rem;
   box-sizing: border-box;
   outline: none;
   cursor: pointer;
@@ -159,30 +148,7 @@ const BasicButton = styled.button`
   ${point}
   ${outline}
   ${outlinePoint}
-  ${outlineWhite}
-  ${full}
-  ${navBtn}
-  ${active}
-`;
-
-const LinkButton = styled.a`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem 1.2rem;
-  font-family: "Poppins", sans-serif;
-  font-size: 1rem;
-  border: none;
-  border-radius: 0.2rem;
-  box-sizing: border-box;
-  outline: none;
-  cursor: pointer;
-  transition: all 0.1s ease-in-out;
-  ${basic}
-  ${point}
-  ${outline}
-  ${outlinePoint}
-  ${outlineWhite}
+  ${outlineBlack}
   ${full}
   ${navBtn}
   ${active}

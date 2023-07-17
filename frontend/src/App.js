@@ -58,7 +58,6 @@ const router = createBrowserRouter([
       },
       {
         path: "clinics",
-        element: <ClinicRootLayout />,
         children: [
           {
             index: true,
@@ -75,7 +74,6 @@ const router = createBrowserRouter([
       },
       {
         path: "reviews",
-        element: <ReviewRootLayout />,
         children: [
           {
             index: true,
@@ -111,7 +109,6 @@ const router = createBrowserRouter([
       },
       {
         path: "articles",
-        element: <ArticleRootLayout />,
         children: [
           {
             index: true,
