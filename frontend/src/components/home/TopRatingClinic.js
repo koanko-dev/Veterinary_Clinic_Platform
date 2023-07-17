@@ -21,7 +21,6 @@ export default TopRatingClinic;
 
 const TopRatingClinicBox = styled.section`
   height: 440px;
-  outline: red solid 1px;
   margin-top: 2rem;
 `;
 

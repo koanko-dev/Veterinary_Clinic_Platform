@@ -61,7 +61,6 @@ export default ServicesSection;
 
 const ServicesSectionBox = styled.section`
   height: 780px;
-  outline: red solid 1px;
 `;
 
 const Wrapper = styled(Responsive)`

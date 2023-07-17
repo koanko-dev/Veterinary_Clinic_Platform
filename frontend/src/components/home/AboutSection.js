@@ -64,7 +64,6 @@ export default AboutSection;
 
 const AboutSectionBox = styled.section`
   height: 600px;
-  outline: red solid 1px;
 `;
 
 const Wrapper = styled(Responsive)`

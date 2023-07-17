@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Responsive from "../UI/Responsive";
 import palette from "../../lib/styles/palette";
 
-import catImg from '../../assets/cat.png'
+import { importImg } from "../../util/img";
 
 const HomeFirstSection = () => {
   return (
@@ -16,7 +16,7 @@ const HomeFirstSection = () => {
               <div>Veterinary</div>
               <div>Clinics in Seoul</div>
               <TitleTagImgBox>
-                <img src='/static/images/cat.png' alt="title tag" />
+                <img src={importImg("title_tag.png")} alt="title tag" />
               </TitleTagImgBox>
             </Title>
             <Sub>
@@ -32,7 +32,7 @@ const HomeFirstSection = () => {
           </ReviewBox>
         </LeftSideWrapper>
         <RightSideWrapper>
-          <img src={catImg} alt="cat" />
+          <img src={importImg("cat.png")} alt="cat" />
         </RightSideWrapper>
       </Wrapper>
     </HomeFirstSectionBox>
@@ -43,7 +43,6 @@ export default HomeFirstSection;
 
 const HomeFirstSectionBox = styled.section`
   height: 680px;
-  outline: red solid 1px;
 `;
 
 const Wrapper = styled(Responsive)`
@@ -69,9 +68,14 @@ const Title = styled.div`
 `;
 
 const TitleTagImgBox = styled.span`
+  width: 110px;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: -4px;
+  top: 4px;
+
+  img {
+    width: 100%;
+  }
 `;
 
 const Sub = styled.div`
@@ -93,4 +97,13 @@ const ReviewBox = styled.div`
   }
 `;
 
-const RightSideWrapper = styled.div``;
+const RightSideWrapper = styled.div`
+  width: 600px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  img {
+    width: 100%;
+  }
+`;
