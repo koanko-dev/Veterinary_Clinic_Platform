@@ -48,8 +48,7 @@ export default ClinicCard;
 const ClinicCardBox = styled.li`
   height: 210px;
   list-style-type: none;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 20px;
   margin-bottom: 2rem;
   display: flex;

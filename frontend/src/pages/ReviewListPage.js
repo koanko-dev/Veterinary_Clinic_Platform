@@ -48,11 +48,7 @@ const ReviewListPage = () => {
       return (
         <ReviewCard
           key={review.id}
-          username={review.user.username}
-          title={review.title}
-          rating={review.rating}
-          created_at={review.created_at}
-          content={review.content}
+          review={review}
           onShow={() => showModalHandler(review)}
         />
       );
@@ -114,9 +110,7 @@ const ReviewListPage = () => {
           </ButtonBox>
         </Form>
 
-        <div>
-          <ul>{content}</ul>
-        </div>
+        <ContentBox>{content}</ContentBox>
       </Wrapper>
     </ReviewListPageBox>
   );
@@ -175,4 +169,11 @@ const ButtonBox = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 0.5rem;
+`;
+
+const ContentBox = styled.ul`
+  margin-top: 4rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
