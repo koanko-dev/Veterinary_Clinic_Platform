@@ -12,6 +12,7 @@ import ArticleCard from "../components/article/ArticleCard";
 import { petSpecies } from "../lib/resources/resources";
 import Button from "../components/UI/Button";
 import Responsive from "../components/UI/Responsive";
+import Filter from "../components/UI/Filter";
 
 const ArticleListPage = (props) => {
   const navigate = useNavigate();
@@ -79,28 +80,31 @@ const ArticleListPage = (props) => {
     content = <p>Loading...</p>;
   }
 
+  const filter = [
+    {
+      name: "category",
+      defaultText: "동물 종류 선택",
+      optionValues: petSpecies,
+      optionLabel: petSpecies,
+    },
+    {
+      name: "ordering",
+      defaultText: "최신순으로 보기",
+      optionValues: ["created_at_ascending"],
+      optionLabel: ["과거순으로 보기"],
+    },
+  ];
+
   return (
     <ArticleListPageBox>
       <Wrapper>
         <Form method="post">
-          <select name="category">
-            <option value="">-------</option>
-            {petSpecies.map((option) => {
-              return (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
-          <select name="ordering">
-            <option value="default">최신순으로 보기</option>
-            <option value="created_at_ascending">과거순으로 보기</option>
-          </select>
-
-          <Button theme="point" disabled={isSubmitting}>
-            {isSubmitting ? "필터 적용중..." : "필터 적용"}
-          </Button>
+          <Filter filterData={filter} />
+          <ButtonBox>
+            <Button theme="point" disabled={isSubmitting}>
+              {isSubmitting ? "필터 적용중..." : "필터 적용"}
+            </Button>
+          </ButtonBox>
         </Form>
 
         <div>
@@ -142,3 +146,9 @@ const ArticleListPageBox = styled.section`
 `;
 
 const Wrapper = styled(Responsive)``;
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+`;

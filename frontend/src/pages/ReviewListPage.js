@@ -18,6 +18,7 @@ import {
 } from "../lib/resources/resources";
 import Button from "../components/UI/Button";
 import Responsive from "../components/UI/Responsive";
+import Filter from "../components/UI/Filter";
 
 const ReviewListPage = () => {
   const { data } = useLoaderData();
@@ -58,6 +59,43 @@ const ReviewListPage = () => {
     });
   }
 
+  const filter = [
+    {
+      name: "clinic_area",
+      defaultText: "지역 선택",
+      optionValues: areas,
+      optionLabel: areas,
+    },
+    {
+      name: "pet_species",
+      defaultText: "동물 종류 선택",
+      optionValues: petSpecies,
+      optionLabel: petSpecies,
+    },
+    {
+      name: "clinic_category",
+      defaultText: "진료 분야 선택",
+      optionValues: clinicCategories,
+      optionLabel: clinicCategories,
+    },
+    {
+      name: "ordering",
+      defaultText: "최신순으로 보기",
+      optionValues: [
+        "rating_ascending",
+        "rating_descending",
+        "price_ascending",
+        "price_descending",
+      ],
+      optionLabel: [
+        "낮은 별점순으로 보기",
+        "높은 별점순으로 보기",
+        "낮은 가격순으로 보기",
+        "높은 가격순으로 보기",
+      ],
+    },
+  ];
+
   return (
     <ReviewListPageBox>
       {modalCtx.isShow && (
@@ -68,47 +106,12 @@ const ReviewListPage = () => {
       )}
       <Wrapper>
         <Form method="post">
-          <select name="pet_species">
-            <option value="">-------</option>
-            {petSpecies.map((option) => {
-              return (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
-          <select name="clinic_category">
-            <option value="">-------</option>
-            {clinicCategories.map((option) => {
-              return (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
-          <select name="clinic_area">
-            <option value="">-------</option>
-            {areas.map((option) => {
-              return (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
-          <select name="ordering">
-            <option value="default">최신순으로 보기</option>
-            <option value="rating_ascending">낮은별점순으로 보기</option>
-            <option value="rating_descending">높은별점순으로 보기</option>
-            <option value="price_ascending">낮은가격순으로 보기</option>
-            <option value="price_descending">높은가격순으로 보기</option>
-          </select>
-
-          <Button theme="point" disabled={isSubmitting}>
-            {isSubmitting ? "필터 적용중..." : "필터 적용"}
-          </Button>
+          <Filter filterData={filter} />
+          <ButtonBox>
+            <Button theme="point" disabled={isSubmitting}>
+              {isSubmitting ? "필터 적용중..." : "필터 적용"}
+            </Button>
+          </ButtonBox>
         </Form>
 
         <div>
@@ -167,3 +170,9 @@ const ReviewListPageBox = styled.section`
 `;
 
 const Wrapper = styled(Responsive)``;
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+`;

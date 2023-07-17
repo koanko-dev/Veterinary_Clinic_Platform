@@ -12,6 +12,7 @@ import {
 } from "../lib/resources/resources";
 import Button from "../components/UI/Button";
 import Responsive from "../components/UI/Responsive";
+import Filter from "../components/UI/Filter";
 
 const ClinicListPage = () => {
   const { data } = useLoaderData();
@@ -42,49 +43,44 @@ const ClinicListPage = () => {
     });
   }
 
+  const filter = [
+    {
+      name: "address_area",
+      defaultText: "지역 선택",
+      optionValues: areas,
+      optionLabel: areas,
+    },
+    {
+      name: "specialized_species",
+      defaultText: "동물 종류 선택",
+      optionValues: petSpecies,
+      optionLabel: petSpecies,
+    },
+    {
+      name: "specialized_field",
+      defaultText: "진료 분야 선택",
+      optionValues: clinicCategories,
+      optionLabel: clinicCategories,
+    },
+    {
+      name: "ordering",
+      defaultText: "최신순으로 보기",
+      optionValues: ["rating_ascending", "rating_descending"],
+      optionLabel: ["낮은 별점순으로 보기", "높은 별점순으로 보기"],
+    },
+  ];
+
   return (
     <ClinicListPageBox>
       <Wrapper>
         <Form method="post">
-          <select name="address_area">
-            <option value="">-------</option>
-            {areas.map((option) => {
-              return (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
-          <select name="specialized_species">
-            <option value="">-------</option>
-            {petSpecies.map((option) => {
-              return (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
-          <select name="specialized_field">
-            <option value="">-------</option>
-            {clinicCategories.map((option) => {
-              return (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
-          <select name="ordering">
-            <option value="default">최신순으로 보기</option>
-            <option value="rating_ascending">낮은별점순으로 보기</option>
-            <option value="rating_descending">높은별점순으로 보기</option>
-          </select>
+          <Filter filterData={filter} />
 
-          <Button theme="point" disabled={isSubmitting}>
-            {isSubmitting ? "필터 적용중..." : "필터 적용"}
-          </Button>
+          <ButtonBox>
+            <Button theme="point" disabled={isSubmitting}>
+              {isSubmitting ? "필터 적용중..." : "필터 적용"}
+            </Button>
+          </ButtonBox>
         </Form>
 
         <div>
@@ -143,3 +139,9 @@ const ClinicListPageBox = styled.section`
 `;
 
 const Wrapper = styled(Responsive)``;
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+`;
