@@ -56,11 +56,7 @@ const ArticleListPage = (props) => {
     return (
       <ArticleCard
         key={article.id}
-        id={article.id}
-        title={article.title}
-        clinicName={article.user.clinic_info[0].clinic_name}
-        category={article.category}
-        created_at={article.created_at}
+        article={article}
         onClink={showArticleDetailHandler}
       />
     );
@@ -107,9 +103,7 @@ const ArticleListPage = (props) => {
           </ButtonBox>
         </Form>
 
-        <div>
-          <ul>{content}</ul>
-        </div>
+        <ArticleBox>{content}</ArticleBox>
       </Wrapper>
     </ArticleListPageBox>
   );
@@ -151,4 +145,11 @@ const ButtonBox = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 0.5rem;
+`;
+
+const ArticleBox = styled.ul`
+  margin-top: 4rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
