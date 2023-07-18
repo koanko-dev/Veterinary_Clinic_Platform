@@ -49,7 +49,7 @@ const ClinicCardBox = styled.li`
   height: 210px;
   list-style-type: none;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  border-radius: 20px;
+  border-radius: 10px;
   margin-bottom: 2rem;
   display: flex;
 `;
@@ -63,7 +63,7 @@ const ImgBox = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 20px 0 0 20px;
+    border-radius: 10px 0 0 10px;
   }
 `;
 

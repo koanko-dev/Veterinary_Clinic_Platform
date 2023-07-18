@@ -34,7 +34,7 @@ const ReviewCardBox = styled.li`
   height: 280px;
   list-style-type: none;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  border-radius: 20px;
+  border-radius: 10px;
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
