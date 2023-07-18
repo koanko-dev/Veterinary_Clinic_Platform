@@ -1,18 +1,21 @@
-import React from "react";
-import { Outlet, useNavigation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import NavBar from "../../components/common/NavBar";
 import palette from "../../lib/styles/palette";
 
 const RootLayout = () => {
-  // const navigation = useNavigation();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <>
       <NavBar />
       <Main>
-        {/* {navigation.state === 'loading' && <p>Loading...</p>} */}
         <Outlet />
       </Main>
     </>
