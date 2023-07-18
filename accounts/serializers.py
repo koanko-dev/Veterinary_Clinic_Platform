@@ -8,10 +8,11 @@ from review.serializers import ReviewSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     img = serializers.ImageField(required=False)
+    reviews = ReviewSerializer(read_only=True, many=True)
 
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'email', 'img',)
+        fields = ('id', 'username', 'email', 'img', 'reviews')
 
 
 

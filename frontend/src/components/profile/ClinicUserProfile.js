@@ -2,13 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
+
 import Responsive from "../UI/Responsive";
+import ReviewCard from "../review/ReviewCard";
 
 const ClinicUserProfile = ({ userData }) => {
   return (
     <ClinicUserProfileBox>
       <Wrapper>
-        <h2>Profile</h2>
+        <h2>Clinic Member Profile</h2>
 
         <section>
           <h3>정보</h3>
@@ -31,26 +33,27 @@ const ClinicUserProfile = ({ userData }) => {
         </section>
 
         <section>
-          <h3>팔로워</h3>
+          <h3>팔로워 수</h3>
           <div>{userData.followers.length}</div>
         </section>
 
-        <section>
+        <ReviewSection>
           <h3>병원 리뷰</h3>
-          <div>
+          <ul>
             {userData.reviews.length > 0 ? (
               userData.reviews.map((review) => {
                 return (
-                  <p key={review.id}>
-                    <Link to={`/reviews/${review.id}`}>{review.title}</Link>
-                  </p>
+                  <Link key={review.id} to={`/reviews/${review.id}`}>
+                    <ReviewCard review={review} />
+                  </Link>
                 );
               })
             ) : (
               <p>작성된 리뷰가 없습니다.</p>
             )}
-          </div>
-        </section>
+          </ul>
+        </ReviewSection>
+
       </Wrapper>
     </ClinicUserProfileBox>
   );
@@ -61,10 +64,25 @@ export default ClinicUserProfile;
 const ClinicUserProfileBox = styled.section`
   padding-top: 2rem;
   padding-bottom: 12rem;
+
+  h3 {
+    margin-bottom: 4px;
+  }
+
+  section {
+    margin-bottom: 2rem;
+  }
 `;
 
 const Wrapper = styled(Responsive)`
   h2 {
     margin-bottom: 2rem;
+  }
+`;
+
+const ReviewSection = styled.section`
+  ul {
+    display: flex;
+    flex-wrap: wrap;
   }
 `;

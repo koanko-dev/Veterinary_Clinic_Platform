@@ -192,9 +192,11 @@ const ClinicHome = () => {
             {data.reviews.length > 0 &&
               data.reviews.map((review) => {
                 return (
-                  <ReviewCard key={review.id} review={review}>
-                    <Link to={`/reviews/${review.id}`}>{review.title}</Link>
-                  </ReviewCard>
+                  <Link to={`/reviews/${review.id}`}>
+                    <ReviewCard key={review.id} review={review}>
+                      {review.title}
+                    </ReviewCard>
+                  </Link>
                 );
               })}
           </ul>
@@ -259,7 +261,7 @@ const InfoRow = styled.section`
 
     span {
       margin-right: 1rem;
-       color: ${palette.gray[7]};
+      color: ${palette.gray[7]};
     }
   }
 

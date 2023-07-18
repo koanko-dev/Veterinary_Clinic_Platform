@@ -2,14 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
+
 import Responsive from "../UI/Responsive";
+import ReviewCard from "../review/ReviewCard";
+import ClinicCard from "../clinic/ClinicCard";
 
 const GeneralUserProfile = ({ userData }) => {
   return (
     <GeneralUserProfileBox>
       <Wrapper>
-        <h2>Profile</h2>
-        
+        <h2>General Member Profile</h2>
+
         <section>
           <h3>정보</h3>
           <div>
@@ -26,16 +29,20 @@ const GeneralUserProfile = ({ userData }) => {
           </div>
         </section>
 
-        <section>
+        <ReviewSection>
           <h3>작성한 리뷰</h3>
-          <div>
-            {userData.reviews &&
-              userData.reviews.length > 0 &&
-              userData.reviews.map((review) => {
-                return <p key={review.id}>{review.title}</p>;
+          <ul>
+            {userData.user.reviews &&
+              userData.user.reviews.length > 0 &&
+              userData.user.reviews.map((review) => {
+                return (
+                  <Link key={review.id} to={`/reviews/${review.id}`}>
+                    <ReviewCard review={review} />
+                  </Link>
+                );
               })}
-          </div>
-        </section>
+          </ul>
+        </ReviewSection>
 
         <section>
           <h3>팔로우하는 동물병원</h3>
@@ -44,11 +51,9 @@ const GeneralUserProfile = ({ userData }) => {
               userData.following_clinics.length > 0 &&
               userData.following_clinics.map((following_clinic) => {
                 return (
-                  <div key={following_clinic.id}>
-                    <Link to={`/clinics/${following_clinic.clinic_name}`}>
-                      {following_clinic.clinic_name}
+                    <Link key={following_clinic.id} to={`/clinics/${following_clinic.clinic_name}`}>
+                      <ClinicCard clinic={following_clinic} linkDisable/>
                     </Link>
-                  </div>
                 );
               })}
           </div>
@@ -63,10 +68,25 @@ export default GeneralUserProfile;
 const GeneralUserProfileBox = styled.section`
   padding-top: 2rem;
   padding-bottom: 12rem;
+
+  h3 {
+    margin-bottom: 4px;
+  }
+
+  section {
+    margin-bottom: 2rem;
+  }
 `;
 
 const Wrapper = styled(Responsive)`
   h2 {
     margin-bottom: 2rem;
+  }
+`;
+
+const ReviewSection = styled.section`
+  ul {
+    display: flex;
+    flex-wrap: wrap;
   }
 `;

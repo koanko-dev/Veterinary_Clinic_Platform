@@ -8,38 +8,42 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { importImg } from "../../util/img";
 import palette from "../../lib/styles/palette";
 
-const ClinicCard = ({ clinic }) => {
-  return (
-    <Link to={`${clinic.clinic_name}`}>
-      <ClinicCardBox>
-        <ImgBox>
-          <img src={importImg("cat6.jpg")}></img>
-        </ImgBox>
-        <ContentBox>
-          <div>
-            <small>
-              <LocationOnIcon fontSize="small" />
-              {clinic.address_area}
-            </small>
-            <h3>{clinic.clinic_name}</h3>
-            <BioBox>{clinic.bio}</BioBox>
-            <p>
-              <span>{clinic.specialized_field}</span>
-              <span>{clinic.specialized_species}</span>
-            </p>
-          </div>
-          <RatingBox>
-            <Rating
-              size="small"
-              precision={0.25}
-              name="read-only"
-              value={clinic.rating}
-              readOnly
-            />
-          </RatingBox>
-        </ContentBox>
-      </ClinicCardBox>
-    </Link>
+const ClinicCard = ({ clinic, linkDisable }) => {
+  const clinicCard = (
+    <ClinicCardBox>
+      <ImgBox>
+        <img src={importImg("cat6.jpg")}></img>
+      </ImgBox>
+      <ContentBox>
+        <div>
+          <small>
+            <LocationOnIcon fontSize="small" />
+            {clinic.address_area}
+          </small>
+          <h3>{clinic.clinic_name}</h3>
+          <BioBox>{clinic.bio}</BioBox>
+          <p>
+            <span>{clinic.specialized_field}</span>
+            <span>{clinic.specialized_species}</span>
+          </p>
+        </div>
+        <RatingBox>
+          <Rating
+            size="small"
+            precision={0.25}
+            name="read-only"
+            value={clinic.rating}
+            readOnly
+          />
+        </RatingBox>
+      </ContentBox>
+    </ClinicCardBox>
+  );
+
+  return linkDisable ? (
+    clinicCard
+  ) : (
+    <Link to={`${clinic.clinic_name}`}>{clinicCard}</Link>
   );
 };
 
