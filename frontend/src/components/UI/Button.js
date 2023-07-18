@@ -114,6 +114,18 @@ const full =
     return null;
   };
 
+const small =
+  () =>
+  ({ size }) => {
+    if (size === "small") {
+      return `
+        padding: 4px 12px;
+        height: fit-content;
+        `;
+    }
+    return null;
+  };
+
 const navBtn =
   () =>
   ({ theme }) => {
@@ -152,4 +164,5 @@ const BasicButton = styled.button`
   ${full}
   ${navBtn}
   ${active}
+  ${small}
 `;
