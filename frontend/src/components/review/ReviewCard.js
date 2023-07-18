@@ -35,11 +35,11 @@ const ReviewCardBox = styled.li`
   list-style-type: none;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 10px;
-  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
   padding: 2rem 1.5rem;
   align-items: center;
+  margin: 0 10px 2rem;
 
   h3 {
     font-size: 1.3rem;
