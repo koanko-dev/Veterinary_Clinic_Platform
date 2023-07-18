@@ -13,7 +13,7 @@ const ClinicCard = ({ clinic }) => {
     <Link to={`${clinic.clinic_name}`}>
       <ClinicCardBox>
         <ImgBox>
-          <img src={importImg("cat9.jpg")}></img>
+          <img src={importImg("cat6.jpg")}></img>
         </ImgBox>
         <ContentBox>
           <div>
@@ -72,7 +72,7 @@ const ContentBox = styled.div`
   min-height: 150px;
   flex-basis: 100px;
   flex-grow: 3;
-  padding: 2rem 1.5rem;
+  padding: 2rem 1.5rem 2rem 2rem;
   position: relative;
 
   small {

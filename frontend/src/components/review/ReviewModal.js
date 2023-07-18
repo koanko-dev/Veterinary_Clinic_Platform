@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
+import { useSubmit } from "react-router-dom";
+
 import Modal from "../UI/Modal";
-import { Link, useSubmit } from "react-router-dom";
-import { getUserId } from "../../util/auth";
-import Button from "../UI/Button";
+import ReviewContent from "./ReviewContent";
 
 const ReviewModal = ({ onClose, review }) => {
   const submit = useSubmit();
-  const userId = getUserId();
 
   useEffect(() => {
     return () => {
@@ -24,21 +23,7 @@ const ReviewModal = ({ onClose, review }) => {
 
   return (
     <Modal onClose={onClose}>
-      ReviewModal
-      <p>{review.title}</p>
-      <p>{review.rating}</p>
-      <p>{review.price}</p>
-      <p>{review.content}</p>
-      {review.user.id === userId && (
-        <>
-          <Link to={`/reviews/${review.id}/edit`}>
-            <Button theme="outlinePoint">수정</Button>
-          </Link>
-          <Button theme="point" onClick={deleteReviewHandler}>
-            삭제
-          </Button>
-        </>
-      )}
+      <ReviewContent review={review} onDeleteReview={deleteReviewHandler} />
     </Modal>
   );
 };

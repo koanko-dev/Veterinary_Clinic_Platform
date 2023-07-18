@@ -1,15 +1,13 @@
 import React from "react";
-import { Link, useSubmit } from "react-router-dom";
+import { useSubmit } from "react-router-dom";
 
 import styled from "styled-components";
 
-import { getUserId } from "../../util/auth";
-import Button from "../UI/Button";
 import Responsive from "../UI/Responsive";
+import ReviewContent from "./ReviewContent";
 
 const ReviewDetail = ({ review }) => {
   const submit = useSubmit();
-  const userId = getUserId();
 
   const deleteReviewHandler = () => {
     const proceed = window.confirm("Are you sure?");
@@ -22,19 +20,7 @@ const ReviewDetail = ({ review }) => {
   return (
     <ReviewDetailBox>
       <Wrapper>
-        <h2>ReviewDetailPage</h2>
-        <p>{review.title}</p>
-        <p>{review.content}</p>
-        {review.user.id === userId && (
-          <>
-            <Link to="edit">
-              <Button theme="outlinePoint">수정</Button>
-            </Link>
-            <Button theme="point" onClick={deleteReviewHandler}>
-              삭제
-            </Button>
-          </>
-        )}
+        <ReviewContent review={review} onDeleteReview={deleteReviewHandler} />
       </Wrapper>
     </ReviewDetailBox>
   );

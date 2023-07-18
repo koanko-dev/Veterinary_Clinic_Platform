@@ -90,7 +90,7 @@ const Header = styled.header`
   height: 7rem;
   position: fixed;
   top: 0;
-  z-index: 100;
+  z-index: 10;
 `;
 
 const Wrapper = styled(Responsive)``;
