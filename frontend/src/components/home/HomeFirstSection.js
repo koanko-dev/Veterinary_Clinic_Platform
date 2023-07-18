@@ -1,9 +1,10 @@
 import React from "react";
 
 import styled from "styled-components";
+import CountUp from "react-countup";
+
 import Responsive from "../UI/Responsive";
 import palette from "../../lib/styles/palette";
-
 import { importImg } from "../../util/img";
 
 const HomeFirstSection = () => {
@@ -25,9 +26,13 @@ const HomeFirstSection = () => {
             </Sub>
           </MainTitleBox>
           <ReviewBox>
-            <div>img</div>
+            <img src={importImg("people.png")} />
             <div>
-              <span>{">"}100</span> Reviews
+              <span>
+                {">"}
+                <CountUp start={0} end={1486} duration={1.5} decimal="," />
+              </span>
+              <span> Reviews</span>
             </div>
           </ReviewBox>
         </LeftSideWrapper>
@@ -90,10 +95,25 @@ const ReviewBox = styled.div`
   height: 200px;
   background-color: ${palette.point[0]};
   border-radius: 20px;
+  position: relative;
 
   span {
-    font-size: 2.5rem;
-    font-weight: 500;
+    &:first-child {
+      font-size: 2.5rem;
+      font-weight: 500;
+    }
+
+    &:nth-child(2) {
+      position: absolute;
+      top: 141px;
+      left: 163px;
+    }
+  }
+
+  img {
+    width: 220px;
+    position: relative;
+    left: -16px;
   }
 `;
 

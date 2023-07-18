@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 import Responsive from "../UI/Responsive";
@@ -7,11 +8,13 @@ const TopRatingClinic = () => {
   return (
     <TopRatingClinicBox>
       <Wrapper>
-        <ImgCard>
-          <BlackCover>
-            <h4>Meet Top Rating Clinic!</h4>
-          </BlackCover>
-        </ImgCard>
+        <Link to="/clinics">
+          <ImgCard>
+            <BlackCover>
+              <h4>Meet Top Rating Clinic!</h4>
+            </BlackCover>
+          </ImgCard>
+        </Link>
       </Wrapper>
     </TopRatingClinicBox>
   );

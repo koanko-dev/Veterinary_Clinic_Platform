@@ -109,7 +109,6 @@ const HomeLinkBox = styled.div`
 `;
 
 const NavListBox = styled.ul`
-  width: 480px;
   height: 40px;
   position: absolute;
   top: 30px;
@@ -128,6 +127,8 @@ const NavListBox = styled.ul`
 `;
 
 const NavLi = styled.li`
+  padding: 0px 20px;
+
   a {
     height: 100%;
 

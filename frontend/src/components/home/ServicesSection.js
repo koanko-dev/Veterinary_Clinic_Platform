@@ -1,8 +1,10 @@
 import React from "react";
 
 import styled from "styled-components";
+
 import Responsive from "../UI/Responsive";
 import palette from "../../lib/styles/palette";
+import { importImg } from "../../util/img";
 
 const ServicesSection = () => {
   return (
@@ -13,6 +15,7 @@ const ServicesSection = () => {
         <BlueCardsBox>
           <FirstRow>
             <FirstRowBlueCard>
+              <FirstImg src={importImg("s1.png")} />
               <h4>Care</h4>
               <p>
                 Provide askdjf askglxk sdsdk dksj dj s zicxmw jkxs the aasdfkk
@@ -20,6 +23,7 @@ const ServicesSection = () => {
               </p>
             </FirstRowBlueCard>
             <FirstRowBlueCard>
+              <SecongImg src={importImg("s2.png")} />
               <h4>Care</h4>
               <p>
                 Provide askdjf askglxk sdsdk dksj dj s zicxmw jkxs the aasdfkk
@@ -30,6 +34,7 @@ const ServicesSection = () => {
 
           <SecondRow>
             <SecondRowBlueCard>
+              <ThirdImg src={importImg("s3.png")} />
               <h4>Care</h4>
               <p>
                 Provide askdjf askglxk sdsdk dksj dj s zicxmw jkxs the aasdfkk
@@ -37,6 +42,7 @@ const ServicesSection = () => {
               </p>
             </SecondRowBlueCard>
             <SecondRowBlueCard>
+              <FourthImg src={importImg("s4.png")} />
               <h4>Care</h4>
               <p>
                 Provide askdjf askglxk sdsdk dksj dj s zicxmw jkxs the aasdfkk
@@ -44,6 +50,7 @@ const ServicesSection = () => {
               </p>
             </SecondRowBlueCard>
             <SecondRowBlueCard>
+              <FifthImg src={importImg("s5.png")} />
               <h4>Care</h4>
               <p>
                 Provide askdjf askglxk sdsdk dksj dj s zicxmw jkxs the aasdfkk
@@ -75,7 +82,12 @@ const Wrapper = styled(Responsive)`
   }
 `;
 
-const BlueCardsBox = styled.div``;
+const BlueCardsBox = styled.div`
+  img {
+    position: relative;
+    margin-bottom: 8px;
+  }
+`;
 
 const FirstRow = styled.div`
   display: flex;
@@ -111,4 +123,33 @@ const FirstRowBlueCard = styled(BlueCard)`
 const SecondRowBlueCard = styled(BlueCard)`
   width: 32%;
   height: 250px;
+
+  &:last-child {
+    background-color: ${palette.yellow[0]};
+  }
+`;
+
+const FirstImg = styled.img`
+  left: -4px;
+  width: 60px;
+`;
+
+const SecongImg = styled.img`
+  left: -8px;
+  width: 65px;
+`;
+
+const ThirdImg = styled.img`
+  left: -6px;
+  width: 60px;
+`;
+
+const FourthImg = styled.img`
+  left: -8px;
+  width: 60px;
+`;
+
+const FifthImg = styled.img`
+  left: -2px;
+  width: 56px;
 `;
