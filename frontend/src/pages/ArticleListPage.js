@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
   Form,
+  Link,
   useActionData,
   useNavigate,
   useNavigation,
@@ -13,11 +14,13 @@ import { petSpecies } from "../lib/resources/resources";
 import Button from "../components/UI/Button";
 import Responsive from "../components/UI/Responsive";
 import Filter from "../components/UI/Filter";
+import { getGroup } from "../util/auth";
 
 const ArticleListPage = (props) => {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const actionData = useActionData();
+  const group = getGroup();
 
   const [articleList, setArticleList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -97,6 +100,11 @@ const ArticleListPage = (props) => {
         <Form method="post">
           <Filter filterData={filter} />
           <ButtonBox>
+            {group === "clinic" && (
+              <Link to="new">
+                <Button theme="outlinePoint">아티클 작성</Button>
+              </Link>
+            )}
             <Button theme="point" disabled={isSubmitting}>
               {isSubmitting ? "필터 적용중..." : "필터 적용"}
             </Button>
@@ -145,6 +153,10 @@ const ButtonBox = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 0.5rem;
+
+  button {
+    margin-left: 8px;
+  }
 `;
 
 const ArticleBox = styled.ul`

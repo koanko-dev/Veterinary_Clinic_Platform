@@ -86,9 +86,11 @@ const ClinicHome = () => {
         <InfoRow>
           <div>
             <span>+ {followerNum} followers</span>
-            <Button size="small" theme="outlineBlack" onClick={followHandler}>
-              {isFollowing ? "언팔로우" : "팔로우"}
-            </Button>
+            {group === "general" && (
+              <Button size="small" theme="outlineBlack" onClick={followHandler}>
+                {isFollowing ? "언팔로우" : "팔로우"}
+              </Button>
+            )}
           </div>
 
           <p>
