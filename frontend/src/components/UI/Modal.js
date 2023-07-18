@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import styled from "styled-components";
+
+import styled, { keyframes } from "styled-components";
 import Responsive from "./Responsive";
 import palette from "../../lib/styles/palette";
 
@@ -9,11 +10,7 @@ const Backdrop = (props) => {
 };
 
 const ModalOverlay = (props) => {
-  return (
-      <ModalOverlayBox>
-        <ModalOverlayContent>{props.children}</ModalOverlayContent>
-      </ModalOverlayBox>
-  );
+  return <ModalOverlayBox>{props.children}</ModalOverlayBox>;
 };
 
 const potalElement = document.getElementById("overlays");
@@ -33,6 +30,15 @@ const Modal = (props) => {
   );
 };
 
+const fadein = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
+
 const BackdropBox = styled.div`
   position: fixed;
   top: 0;
@@ -41,6 +47,18 @@ const BackdropBox = styled.div`
   height: 100vh;
   z-index: 20;
   background-color: rgba(0, 0, 0, 0.75);
+  animation: ${fadein} 0.2s;
+`;
+
+const PostSlideUp = keyframes`
+0% {
+  transform: translate(-50%, 10%);
+  opacity: 0;
+}
+100% {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
 `;
 
 const ModalOverlayBox = styled(Responsive)`
@@ -57,8 +75,8 @@ const ModalOverlayBox = styled(Responsive)`
   overflow: scroll;
   max-height: calc(100vh - 24vh);
   color: ${palette.gray[8]};
+  transition: all 1s ease-in-out;
+  animation: ${PostSlideUp} 0.3s ease-out;
 `;
-
-const ModalOverlayContent = styled.div``;
 
 export default Modal;
