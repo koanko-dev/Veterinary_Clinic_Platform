@@ -24,9 +24,6 @@ import ArticleDetailPage, {
 } from "./pages/ArticleDetailPage";
 import RootLayout from "./pages/layout/RootLayout";
 import ErrorPage from "./pages/ErrorPage";
-import ClinicRootLayout from "./pages/layout/ClinicRootLayout";
-import ReviewRootLayout from "./pages/layout/ReviewRootLayout";
-import ArticleRootLayout from "./pages/layout/ArticleRootLayout";
 import { action as logoutAction } from "./pages/Logout";
 import UserProfilePage, {
   loader as userProfileLoader,

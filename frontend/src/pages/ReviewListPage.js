@@ -101,6 +101,7 @@ const ReviewListPage = () => {
         />
       )}
       <Wrapper>
+        {/* <h2>Search Clinic, Make an Appointment</h2> */}
         <Form method="post">
           <Filter filterData={filter} />
           <ButtonBox>
@@ -161,6 +162,12 @@ export const action = async ({ request }) => {
 const ReviewListPageBox = styled.section`
   padding-top: 2rem;
   padding-bottom: 12rem;
+
+  /* h2 {
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 4rem;
+  } */
 `;
 
 const Wrapper = styled(Responsive)``;
