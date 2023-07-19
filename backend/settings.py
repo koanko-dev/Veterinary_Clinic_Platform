@@ -154,8 +154,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # 특정 origin 에게만 교차 출처 허용
 # CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:8080',
-#     'http://127.0.0.1:8001',
+#     # 'http://localhost:8080',
+#     # 'http://127.0.0.1:8001',
+#     'https://696b-14-52-189-40.ngrok-free.app',
 # ]
 
 AUTH_USER_MODEL = 'accounts.User'

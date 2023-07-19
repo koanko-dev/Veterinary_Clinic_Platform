@@ -27,4 +27,5 @@ export default RootLayout;
 const Main = styled.main`
   margin-top: 7rem;
   color: ${palette.gray[8]};
+  padding-bottom: 2rem;
 `;

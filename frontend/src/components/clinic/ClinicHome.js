@@ -114,7 +114,7 @@ const ClinicHome = () => {
         </InfoRow>
 
         <ImageRow>
-          <img src={importImg("cat4.jpg")} />
+          <img src={importImg("cat6.jpg")} />
         </ImageRow>
 
         <OverviewRow>

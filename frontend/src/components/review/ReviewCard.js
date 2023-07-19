@@ -30,7 +30,9 @@ const ReviewCard = ({ review, onShow }) => {
 export default ReviewCard;
 
 const ReviewCardBox = styled.li`
+  background-color: #fff;
   width: 220px;
+  min-width: 220px;
   height: 280px;
   list-style-type: none;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;

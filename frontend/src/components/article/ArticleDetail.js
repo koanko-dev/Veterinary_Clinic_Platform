@@ -37,7 +37,9 @@ const ArticleDetail = ({ article }) => {
               <h3>{article.title}</h3>
               <span>#{article.category}</span>
             </TitleAndCategory>
-            <p>{article.user.clinic_info[0].clinic_name}</p>
+            <Link to={`/clinics/${article.user.clinic_info[0].clinic_name}`}>
+              <p>{article.user.clinic_info[0].clinic_name}</p>
+            </Link>
             <small>Created at. {articleCreatedDate}</small>
           </FirstRow>
 

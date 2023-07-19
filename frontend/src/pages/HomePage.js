@@ -8,6 +8,7 @@ import HomeFirstSection from "../components/home/HomeFirstSection";
 import AboutSection from "../components/home/AboutSection";
 import ServicesSection from "../components/home/ServicesSection";
 import TopRatingClinic from "../components/home/TopRatingClinic";
+import RecentlyCreatedReviewsSection from "../components/home/RecentlyCreatedReviewsSection";
 
 const HomePage = () => {
   const { topRatingClinics, recentlyCreatedReviews } = useLoaderData();
@@ -19,15 +20,20 @@ const HomePage = () => {
       <ServicesSection />
       <TopRatingClinic />
       <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+        <Await resolve={recentlyCreatedReviews}>
+          {(loadedReviews) => (
+            <RecentlyCreatedReviewsSection
+              recentlyCreatedReviews={loadedReviews}
+            />
+          )}
+        </Await>
+      </Suspense>
+
+      {/* <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
         <Await resolve={topRatingClinics}>
           {(loadedClinics) => <ClinicList clinics={loadedClinics} />}
         </Await>
-      </Suspense>
-      <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
-        <Await resolve={recentlyCreatedReviews}>
-          {(loadedReviews) => <ReviewList reviews={loadedReviews} />}
-        </Await>
-      </Suspense>
+      </Suspense> */}
     </>
   );
 };

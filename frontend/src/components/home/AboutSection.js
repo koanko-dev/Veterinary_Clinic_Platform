@@ -2,6 +2,7 @@ import React from "react";
 
 import styled from "styled-components";
 import Responsive from "../UI/Responsive";
+import { importImg } from "../../util/img";
 
 const AboutSection = () => {
   return (
@@ -19,7 +20,9 @@ const AboutSection = () => {
             </FirstCol>
             <SecondCol>
               <Card>
-                <div>emozi</div>
+                <div>
+                  <img src={importImg("emozi1.png")} />
+                </div>
                 <h4>Care</h4>
                 <p>
                   Provide askdjf askglxk sdsdk dksj dj s zicxmw jkxs the aasdfkk
@@ -27,7 +30,9 @@ const AboutSection = () => {
                 </p>
               </Card>
               <Card>
-                <div>emozi</div>
+                <div>
+                  <img src={importImg("emozi2.png")} />
+                </div>
                 <h4>Care</h4>
                 <p>
                   Provide askdjf askglxk sdsdk dksj dj s zicxmw jkxs the aasdfkk
@@ -37,7 +42,9 @@ const AboutSection = () => {
             </SecondCol>
             <ThirdCol>
               <Card>
-                <div>emozi</div>
+                <div>
+                  <img src={importImg("emozi3.png")} />
+                </div>
                 <h4>Care</h4>
                 <p>
                   Provide askdjf askglxk sdsdk dksj dj s zicxmw jkxs the aasdfkk
@@ -45,7 +52,9 @@ const AboutSection = () => {
                 </p>
               </Card>
               <Card>
-                <div>emozi</div>
+                <div>
+                  <img src={importImg("emozi4.png")} />
+                </div>
                 <h4>Care</h4>
                 <p>
                   Provide askdjf askglxk sdsdk dksj dj s zicxmw jkxs the aasdfkk
@@ -132,9 +141,14 @@ const Card = styled.div`
   justify-content: space-between;
 
   div {
-    outline: red solid 1px;
     width: 50px;
     height: 50px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   h4 {
